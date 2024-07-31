@@ -1,0 +1,28 @@
+.link {
+    display: flex;
+    align-items: cover;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+.link:hover {
+    background-color: #e8f5fe;
+    color: #50b7f5;
+    text-align: center;
+    width: fit-content;
+    transition: color 100ms ease-out;
+}
+
+.link>h2 {
+    font-weight: 500;
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.link>.MuiSvgIcon-root {
+    padding: 20px;
+}
+
+a {
+    text-decoration: none;
+}

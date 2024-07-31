@@ -1,0 +1,12 @@
+Django
+mysqlclient
+python-dotenv
+django-cors-headers
+html5lib
+numpy
+Pillow
+djangorestframework
+django-allauth[socialaccount]
+requests
+Pillow
+dataclasses

@@ -1,0 +1,53 @@
+services: 
+
+  db:
+    image: mysql:8.4
+    container_name: cards_database_conf
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysql", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}", "-e", "SELECT 1"]
+      timeout: 20s
+      retries: 10
+      
+  frontend:
+      build:
+        context: ./reactfrontend
+        dockerfile: Dockerfile
+      container_name: cards_frontend
+      restart: always
+      volumes: 
+        - ./reactfrontend:/app/frontend
+      ports:
+        - "3000:3000"
+      depends_on:
+        - backend
+  
+  backend:
+    build: 
+      context: ./productBackend
+      dockerfile: Dockerfile
+    container_name: cards_backend
+    # command: sh -c "python3 produtctBackend/manage.py migrate --noinput && python3 produtctBackend/manage.py runserver 0.0.0.0:8000"
+    restart: always
+    volumes:
+      - ./productBackend:/app/backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+        
+volumes:
+  data:
