@@ -16,12 +16,18 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic.base import TemplateView
+from . import views
 
 urlpatterns = [
     path("Users/", include("Users.urls")),
     path("admin/", admin.site.urls),
+    path("csrfToken/", views.GetCSRFToken.as_view(), name="csrf_token"),
     # below is just there, right I dont know why...but soon.
-    path(r"^.*/", TemplateView.as_view(template_name="base_react.html"), name="base"),
+    # re_path(
+    #     r"^.*/", TemplateView.as_view(template_name="base_react.html"), name="base"
+    # ),
+    path("accounts/", include("allauth.urls")),
+    path("_allauth/", include("allauth.headless.urls")),
 ]

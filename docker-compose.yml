@@ -23,6 +23,7 @@ services:
         context: ./reactfrontend
         dockerfile: Dockerfile
       container_name: cards_frontend
+      command: sh -c "npm install && npm start"
       restart: always
       volumes: 
         - ./reactfrontend:/app/frontend
@@ -48,6 +49,21 @@ services:
       db:
         condition: service_healthy
 
-        
+  proxy:
+    image: traefik:v3.0
+    container_name: proxy
+    ports:
+      - 10000:10000
+    volumes:
+      - ./traefik.toml:/etc/traefik/traefik.toml
+
+  mail:
+    container_name: mail
+    image: schickling/mailcatcher
+    ports:
+      - 1080:1080
+      - 1025:1025     
+
+
 volumes:
   data:

@@ -1,18 +1,7 @@
 import './sidebar.css';
 import SidebarLink from './SidebarLink';
-import Home from './Home/home';
-import { Route, Routes } from 'react-router-dom';
 
 // not using material-ui icons instead using react-icons
-/*
-import { FaBeer } from 'react-icons/fa';
-
-class Question extends React.Component {
-  render() {
-    return <h3> Lets go for a <FaBeer />? </h3>
-  }
-}
-*/
 
 import { RiHomeSmileLine } from "react-icons/ri";
 import { IoIosSearch } from "react-icons/io";
@@ -41,31 +30,26 @@ function Sidebar() {
                     <SidebarLink text="Premium" Icon={MdAttachMoney} link="/premium" />
                     <SidebarLink text="Profile" Icon={GoPerson} link="/profile" />
                     <SidebarLink text="More" Icon={IoIosMore} link="/more" />
-                    <li class="">
-                        <div class="md:w-full m-1">
+                    <li className="">
+                        <div className="md:w-full m-1">
                             <button
-                                class="mx-auto bg-[#1d9bf0] text-sm md:text-xl my-4 text-white rounded-full flex items-center px-3 py-1 sm:px-20 sm:py-3 font-semibold">
-                                <span class="bg-[#1d9bf0]">Post</span>
+                                className="mx-auto bg-[#1d9bf0] text-sm md:text-xl my-4 text-white rounded-full flex items-center px-3 py-1 sm:px-20 sm:py-3 font-semibold">
+                                <span className="bg-[#1d9bf0]">Post</span>
                             </button>
                         </div>
                     </li>
                 </ul>
-                <div class="w-[70%] ml-9 justify-between hover:bg-[#36383b] rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer">
-                    <div class="item my-2 p-2 flex gap-1">
-                        <img src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg" alt="" class="w-10 h-10 rounded-full" />
-                        <div class="mx-0">
-                            <div class="font-semibold ">Gyan Dev</div>
-                            <div class=" text-sm text-gray-300">@goonie</div>
+                <div className="w-[70%] ml-9 justify-between hover:bg-[#36383b] rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer">
+                    <div className="item my-2 p-2 flex gap-1">
+                        <img src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg" alt="" className="w-10 h-10 rounded-full" />
+                        <div className="mx-0">
+                            <div className="font-semibold ">Gyan Dev</div>
+                            <div className=" text-sm text-gray-300">@goonie</div>
                         </div>
                         <div className='material-symbols-outlined text-2xl ml-8 pt-2 '><IoIosMore /></div>
                     </div>
                 </div>
             </div>
-
-            <Routes>
-                <Route path="/home" element={<Home />} />
-            </Routes>
-
         </div>
     );
 }

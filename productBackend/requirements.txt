@@ -6,7 +6,8 @@ html5lib
 numpy
 Pillow
 djangorestframework
-django-allauth[socialaccount]
 requests
 Pillow
 dataclasses
+django-allauth[mfa,socialaccount]>=64.1.0
+qrcode >= 7.0.0

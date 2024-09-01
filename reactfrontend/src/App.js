@@ -1,14 +1,12 @@
-import './App.css';
-import Sidebar from './SideBar/sidebar';
-import Home from './SideBar/Home/home';
+import { AuthContextProvider } from './auth'
+import Router from './Router'
 
-function App() {
+function App () {
   return (
-    <div className="main flex container mx-8">
-      <Sidebar />
-      <Home />
-    </div >
-  );
+    <AuthContextProvider>
+      <Router />
+    </AuthContextProvider>
+  )
 }
 
-export default App;
+export default App

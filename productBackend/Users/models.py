@@ -8,12 +8,12 @@ class Profile(models.Model):
     # "User": consist of username
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # "Name": consist of first name and last name provided by user after creating the account.
-    Name = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True)
     image = models.ImageField(default="./default.png", upload_to="profile_pics")
     bio = models.TextField(max_length=200, blank=True)
     location = models.CharField(max_length=50, blank=True)
     website = models.URLField(blank=True)
-    DOB = models.DateField(blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
     # I used auto_now_add=True to automatically set the date when the user is created.And not auto_now=True because Automatically set the field to now every time the object is saved.
     joined = models.DateTimeField(auto_now_add=True)
 
@@ -59,3 +59,23 @@ class Follow(models.Model):
         User, related_name="followed_user", on_delete=models.CASCADE
     )
     date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "followed_user")
+
+    def __str__(self):
+        return f"{self.user.username} follows {self.followed_user.username}"
+
+
+class Tweet(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(max_length=280)
+    created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name="liked_tweets", blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.content[:50]}"
+
+    @property
+    def likes_count(self):
+        return self.likes.count()

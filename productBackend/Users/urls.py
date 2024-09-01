@@ -1,9 +1,10 @@
-from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from .views import ProfileView
+from rest_framework.routers import DefaultRouter
+from . import views
 
-router = routers.DefaultRouter()
-router.register(r"profile", ProfileView)
+router = DefaultRouter()
+router.register(r"profile", views.ProfileViewSet, basename="profile")
+router.register(r"tweets", views.TweetViewSet, basename="tweet")
+router.register(r"follow", views.FollowViewSet, basename="follow")
 
 urlpatterns = [path("api/", include(router.urls))]
