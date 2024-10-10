@@ -1,4 +1,4 @@
-import { useUser } from '../auth';
+import { useUser } from '../django_allauth/auth';
 
 export default function Dashboard() {
     const user = useUser()

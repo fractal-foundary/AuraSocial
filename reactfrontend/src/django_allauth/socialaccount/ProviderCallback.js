@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import { URLs, pathForPendingFlow, useAuthStatus } from '../auth'
 
-export default function ProviderCallback () {
+export default function ProviderCallback() {
   const location = useLocation()
   const params = new URLSearchParams(location.search)
   const error = params.get('error')
@@ -17,9 +17,11 @@ export default function ProviderCallback () {
   } else {
     url = pathForPendingFlow(auth) || url
   }
+
   if (!error) {
     return <Navigate to={url} />
   }
+
   return (
     <>
       <h1>Third-Party Login Failure</h1>

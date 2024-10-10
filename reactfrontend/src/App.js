@@ -1,11 +1,9 @@
-import { AuthContextProvider } from './auth'
+
 import Router from './Router'
 
-function App () {
+function App() {
   return (
-    <AuthContextProvider>
-      <Router />
-    </AuthContextProvider>
+    <Router />
   )
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+/* import { useState, useEffect } from 'react'
 import * as allauth from '../lib/allauth'
 import ProviderList from './ProviderList'
 import FormErrors from '../components/FormErrors'
@@ -70,3 +70,4 @@ export default function ManageProviders () {
     </div>
   )
 }
+ */

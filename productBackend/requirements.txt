@@ -7,7 +7,6 @@ numpy
 Pillow
 djangorestframework
 requests
-Pillow
 dataclasses
-django-allauth[mfa,socialaccount]>=64.1.0
-qrcode >= 7.0.0
+tweepy==4.14.0
+djangorestframework-simplejwt

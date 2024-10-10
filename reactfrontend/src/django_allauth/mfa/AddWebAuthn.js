@@ -5,15 +5,16 @@ import Button from '../components/Button'
 import * as allauth from '../lib/allauth'
 import {
   create,
-  parseCreationOptionsFromJSON
-} from '@github/webauthn-json/browser-ponyfill'
+  parseCreationOptionsFromJSON,
+} from "@github/webauthn-json/browser-ponyfill";
 
-export default function AddWebAuthn (props) {
+
+export default function AddWebAuthn(props) {
   const [passwordless, setPasswordless] = useState(false)
   const [name, setName] = useState('')
   const [response, setResponse] = useState({ fetching: false, content: null })
 
-  async function submit () {
+  async function submit() {
     setResponse({ ...response, fetching: true })
     try {
       const optResp = await allauth.getWebAuthnCreateOptions(passwordless)

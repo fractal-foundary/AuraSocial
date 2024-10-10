@@ -4,7 +4,6 @@
 // withCredentials: true: Allows the browser to send cookies with cross-origin requests.
 
 import axios from 'axios';
-import { fetchCsrfToken, getCsrfToken } from './lib/csrfToken';
 
 const api = axios.create({
     baseURL: 'http://127.0.0.1:8000/',
@@ -15,11 +14,23 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-    if (!getCsrfToken()) {
-        await fetchCsrfToken();
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
-    config.headers['X-CSRFToken'] = getCsrfToken();
     return config;
+}, (error) => {
+    return Promise.reject(error);
 });
+
+export const exchangeTokens = (code) => {
+    // { code } == {code: code}
+    return api.post("social_accounts/api/token/new/", { code });
+}
+
+export const renewTokens = (refreshToken) => {
+    return api.post("social_accounts/api/token/refresh/", { "refresh_token": refreshToken });
+}
+
 
 export default api;

@@ -26,7 +26,8 @@ services:
       command: sh -c "npm install && npm start"
       restart: always
       volumes: 
-        - ./reactfrontend:/app/frontend
+        # if we only include src and public file than there will be errors due to package.json is not included.
+        - ./reactfrontend:/app/frontend/
       ports:
         - "3000:3000"
       depends_on:
@@ -57,12 +58,13 @@ services:
     volumes:
       - ./traefik.toml:/etc/traefik/traefik.toml
 
-  mail:
-    container_name: mail
-    image: schickling/mailcatcher
-    ports:
-      - 1080:1080
-      - 1025:1025     
+  # Used in development environment, MailCatcher is a free tool that can intercept emails sent from any web or mobile app.
+  # mail:
+  #   container_name: mail
+  #   image: schickling/mailcatcher
+  #   ports:
+  #     - 1080:1080
+  #     - 1025:1025     
 
 
 volumes:

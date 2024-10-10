@@ -1,7 +1,6 @@
 import { useConfig } from '../auth'
 import { redirectToProvider } from '../lib/allauth'
 import Button from '../components/Button'
-import GoogleOneTap from './GoogleOneTap'
 
 export default function ProviderList(props) {
   const config = useConfig()
@@ -12,7 +11,6 @@ export default function ProviderList(props) {
   }
   return (
     <>
-      <GoogleOneTap process={props.process} />
       <ul>
         {providers.map(provider => {
           return (
