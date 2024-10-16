@@ -1,23 +1,82 @@
 from django.db import models
-from django.contrib.auth.models import User
 from PIL import Image
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
 from django.conf import settings
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
-# creating the custom user: https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#substituting-a-custom-user-model
-class CustomUser(AbstractUser):
+# Custom user is created
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, first_name, last_name, email, password=None):
+        if not email:
+            raise ValueError("Users must have an email address")
+
+        email = self.normalize_email(email)
+
+        user = self.model(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, username, first_name, last_name, email, password=None):
+        user = self.create_user(
+            username,
+            first_name,
+            last_name,
+            email,
+            password=password,
+        )
+
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+
+        return user
+
+
+# AbstractBaseUser and AbstractUser are 2 different types of classes.
+# AbstractBaseUser: Provides basic fields like password, last_login, and is_active, bareBone class to create customUser. It needs a custom base manager as well.
+# AbstractUser: it is a more feature-rich class that extends AbstractBaseUser.
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    # username with length 15 can give me "342.7 quintillion" possible unique username
     username = models.CharField(
+        # username unique = False in development for testing purposes. but in production it will be true.
         max_length=15,
-        unique=True,
+        unique=False,
         blank=False,
     )
-    is_admin_user = models.BooleanField(default=False)
-    # this model is inehriting the built-in user model fields as well.
+    # email unique = False in development for testing purposes. but in production it will be true.
+    email = models.EmailField(
+        # email maximum length is 254 characters.
+        max_length=255,
+        # null needs to false in production.
+        null=True,
+        unique=False,
+    )
+    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = "username"
+    EMAIL_FIELD = "email"
     # when we do createsuperuser than below fields are going to be prompted.
-    # refer: https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#django.contrib.auth.models.CustomUser.REQUIRED_FIELDS
-    REQUIRED_FIELDS = ["is_admin_user"]
+    REQUIRED_FIELDS = ["first_name", "last_name", "email"]
 
     def __str__(self) -> str:
         return self.username

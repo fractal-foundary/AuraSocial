@@ -19,7 +19,9 @@ class Access_token(models.Model):
 
     # TODO: we need to add unique=True in twitter_user_id once in production ( not in development )
     twitter_user_id = models.CharField(max_length=50, unique=False)
+    twitter_username = models.CharField(max_length=15, unique=False, default="newUser")
     token_type = models.CharField(max_length=10)
+    # will expire in 2hr
     expires_in = models.IntegerField()
     access_token = models.CharField(max_length=150)
     scope = models.CharField(max_length=150)

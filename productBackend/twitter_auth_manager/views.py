@@ -7,11 +7,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import redirect
-from Users.models import CustomUser
-from django.contrib.auth import login
-from Users.models import Profile
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
+from django.contrib.auth import get_user_model
+
+USER = get_user_model()
 
 import os
 
@@ -38,10 +36,11 @@ TWITTER_SCOPE = getattr(
     "TWITTER_SCOPE",
     ["tweet.write", "users.read", "tweet.read", "offline.access"],
 )
-FRONTEND_AUTHCALLBACK = getattr(
+# FRONTEND_REGISTER_USER: is mainly to update the newly registered user with real data from user.
+FRONTEND_REGISTER_USER = getattr(
     settings,
     "FRONTEND_PROFILE_URL",
-    "http://127.0.0.1:10000/account/authcallback",
+    "http://127.0.0.1:10000/account/register",
 )
 
 
@@ -79,33 +78,8 @@ def twitter_refresh_token(access_token):
     return token_obj
 
 
-# create profile for user.
-def create_profile():
-    new_user = cache.get("new_user")
-
-    Profile.objects.update_or_create(
-        user=new_user,
-    )
-
-
-@api_view(["POST"])
-def exchangeTokens(request):
-    exchange_code = request.data.get("code")
-    if exchange_code:
-        signer = TimestampSigner()
-        try:
-            # these tokens are available for 5mins = 300sec.
-            tokens = signer.unsign_object(exchange_code, max_age=300)
-            return Response(
-                tokens,
-                status.HTTP_200_OK,
-            )
-        except Exception as e:
-            return Response({"exception": str(e)}, status.HTTP_400_BAD_REQUEST)
-
-
 # twitter_callback
-# 1) Fetch AccessToken
+# 1) Fetch and save AccessToken in the database.
 # 2) Redirect to profile page.
 def twitter_callback(request):
     _client = cache.get("_client")
@@ -121,129 +95,35 @@ def twitter_callback(request):
             # I need to create a client here.
             client = tweepy.Client(access_token["access_token"])
             response = client.get_me(user_auth=False)
-            user_name = response.data.name.split(" ")
-            # user: user object and created: boolean value representing weather new object created or not.
-            new_user, created = CustomUser.objects.get_or_create(
-                # "username" needs to be unique for each user, thus if used once cannot be used again.
-                # so, for now, I am changing it manually, but not in future.
-                # username=response.data.username,
-                username="gyan",
-                defaults={"is_admin_user": False},
+            name = response.data.name.split(" ")
+            # creating/register a new user after twitter_auth, because i need it for access_token model.
+            new_user = USER.objects.create_user(
+                username=response.data.username,
+                # dummy email address created from twitter username, cause username is unique which in turn give me a unique email.
+                email=f"{response.data.username}@gmail.com",
+                first_name=name[0],
+                last_name=name[1],
             )
-            if created:
-                # using cache to create a profile for the same user we fetched the access_token for
-                cache.set("new_user", new_user)
-                access_token["user"] = new_user
-                access_token["twitter_user_id"] = response.data.id
-                Access_token(**access_token).save()
+            access_token["user"] = new_user
+            access_token["twitter_user_id"] = response.data.id
+            access_token["twitter_username"] = response.data.username
+            Access_token(**access_token).save()
 
-                # jwt authentication
-                # Generate JWT tokens
-                refresh = RefreshToken.for_user(new_user)
-                access_token = str(refresh.access_token)
-                refresh_token = str(refresh)
+            # Not going to login the user using login(request, user) in current backend server session.
+            # Instead using "jwt authentication" for new user while keeping the admin user in current session.
 
-                # TODO: this cryptographic timestampsigner is temporary, we need to use more robust library like PyJWT, which are specifically made for this purpose.
-                # Create a signed token that expires in 5 minutes
-                signer = TimestampSigner()
-                token_data = {
-                    "access_token": access_token,
-                    "refresh_token": refresh_token,
-                }
-                signed_token = signer.sign_object(token_data)
-
-            # login the user
-            # login(request, user)
-            # nope not going to login the user in current session, instead using jwt authentication for new user while keeping the admin user in current session.
-
-            # profile is created for new_user
-            create_profile()
-
-            # pass this signed_token here in success url, then on the frontend will fetch it to access jwt tokens.
-            redirect_url = f"{FRONTEND_AUTHCALLBACK}?status=success&code={signed_token}"
+            redirect_url = f"{FRONTEND_REGISTER_USER}?status=success"
         except Exception as e:
-            redirect_url = f"{FRONTEND_AUTHCALLBACK}?status=exception------>{e}"
+            redirect_url = f"{FRONTEND_REGISTER_USER}?status=exception------>{e}"
     else:
-        redirect_url = f"{FRONTEND_AUTHCALLBACK}?status=TwitterAccessTokenNotFetched"
-        # refresh_token()
+        redirect_url = f"{FRONTEND_REGISTER_USER}?status=TwitterAccessTokenNotFetched"
 
-    # redirecting to the react profile page.
+    # redirecting to the frontend authentication page, where jwt tokens are going to be stored.
     return redirect(redirect_url)
 
 
-# when client send a post request to refresh the jwt access token
-@api_view(["POST"])
-def jwt_refresh_token(request):
-    # recieve refresh_token and then move forward...
-    refresh_token = request.data.get("refresh_token")
-    try:
-        new_refresh_token = RefreshToken(refresh_token)
-        access_token = new_refresh_token.access_token
-        return Response(
-            {
-                "refresh_token": str(new_refresh_token),
-                "access_token": str(access_token),
-            },
-            status.HTTP_200_OK,
-        )
-    except Exception as e:
-        return Response({"error:invalid refresh token"}, status.HTTP_400_BAD_REQUEST)
-
-
-class UserAuthentication:
-    def __init__(self, new_user, twitter_user_id):
-        new_user, created = CustomUser.objects.get_or_create(
-            # "username" needs to be unique for each user, thus if used once cannot be used again.
-            # so, for now, I am changing it manually, but not in future.
-            # username=response.data.username,
-            username="gyan",
-            defaults={"is_admin_user": False},
-        )
-        # double underscore before the name of the variable of a class makes it not traceble easily.
-        self.__new_user = new_user
-        self.__created = created
-        self.__twitter_user_id = twitter_user_id
-
-    def signup_or_login(self):
-
-        # Signup
-        # if created = True
-        # I need to sign new user in.
-        # meaning, need to generate jwt tokens for that user.
-        # create profile for new user.
-        if self.__created:
-            access_token["user"] = self.__new_user
-            access_token["twitter_user_id"] = self.__twitter_user_id
-            Access_token(**access_token).save()
-
-            # jwt authentication
-            # Generate JWT tokens
-            refresh = RefreshToken.for_user(self.__new_user)
-            access_token = str(refresh.access_token)
-            refresh_token = str(refresh)
-            # TODO: this cryptographic timestampsigner is temporary, we need to use more robust library like PyJWT, which are specifically made for this purpose.
-            # Create a signed token that expires in 5 minutes
-            signer = TimestampSigner()
-            token_data = {
-                "access_token": access_token,
-                "refresh_token": refresh_token,
-            }
-            signed_token = signer.sign_object(token_data)
-
-            # create profile for new user, meaning new object for the profile model is being created.
-            Profile.objects.update_or_create(
-                user=self.__new_user,
-                name = 
-            )
-
-            return signed_token
-
-    def logout(self, user): ...
-
-
-# creating rest api to transfer "authentication_url", recieve "response_url" and than tranfer "access_token".
+# creating rest api to transfer "authentication_url", recieve "response_url" and than save "access_token".
 class TwitterAuthView(APIView):
-
     def twitter_auth_url(self):
         self.oauth2_user_handler = get_handler()
         self.auth_url = self.oauth2_user_handler.get_authorization_url()

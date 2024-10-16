@@ -8,7 +8,7 @@ class TwitterTokenRefreshMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.is_authenticated and not request.user.is_admin_user:
+        if request.user.is_authenticated and not request.user.is_superuser:
             try:
                 print("current user ---------> ", request.user)
                 token = Access_token.objects.get(user=request.user)

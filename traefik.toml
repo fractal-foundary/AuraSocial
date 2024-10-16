@@ -24,7 +24,7 @@ defaultEntryPoints = ["http"]
 [http.routers]
     [http.routers.django]
         service = "django"
-        rule = "PathPrefix(`/accounts`) || PathPrefix(`/_allauth`) || PathPrefix(`/social_accounts`) || PathPrefix(`/Users`)"
+        rule = "PathPrefix(`/accounts`) || PathPrefix(`/_allauth`) || PathPrefix(`/api`)"
         entrypoints = ["web"]
 
     [http.routers.react]

@@ -2,24 +2,46 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, UserCreateSerializer, UserSerializer
 from .models import Profile
-from django.core import serializers
+
+
+class UserUpdateView(APIView):
+
+    # this "get request" is just to check wheather the user we are working with exits.
+    def get(self, request):
+        user = request.user
+        user_details = UserSerializer(user)
+        return Response(user_details.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        data = request.data
+
+        # got the serializer instance for the fetched data, and passsed that data to constructor.
+        serializer = UserCreateSerializer(request.user, data=data)
+
+        # check data validity.
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
+
+        # update the new user.
+        user = serializer.update(request.user, serializer.validated_data)
+        # get the new user details.
+        new_user_details = UserSerializer(user)
+
+        # return the new user details to flag that new user has been created and saved in the database.
+        return Response(new_user_details.data, status=status.HTTP_201_CREATED)
 
 
 class ProfileUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        return Response(
-            {"user": serializers.serialize("json", [request.user])},
-            status=status.HTTP_200_OK,
-        )
-
     def put(self, request):
         profile = Profile.objects.get(user=request.user)
 
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        serializer = ProfileSerializer(
+            instance=profile, data=request.data, partial=True
+        )
 
         if serializer.is_valid():
             serializer.save()
