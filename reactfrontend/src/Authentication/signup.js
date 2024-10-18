@@ -17,13 +17,13 @@ const SignupPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="p-8 bg-white rounded shadow-md">
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="p-8 rounded shadow-md">
                 <h1 className="mb-6 text-2xl font-bold text-center">Sign up for Our App</h1>
                 <button
                     onClick={handleTwitterSignup}
                     disabled={isLoading}
-                    className="w-full py-2 px-4 bg-blue-400 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:opacity-50"
+                    className="w-full py-2 px-4 bg-blue-400 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 "
                 >
                     {isLoading ? 'Loading...' : 'Sign up with Twitter'}
                 </button>

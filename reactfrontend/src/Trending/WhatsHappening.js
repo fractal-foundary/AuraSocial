@@ -6,8 +6,8 @@ import { LuMoreHorizontal } from "react-icons/lu";
 
 function Trendingtopic({ topic, hashtag, impressions }) {
     return (
-        <div className="flex justify-between hover:bg-[#36383b] rounded">
-            <div className="item my-2  p-2 ">
+        <div className="flex justify-between hover:bg-slate-100 rounded">
+            <div className="item my-2 p-2 ">
                 <div className=" text-sm text-gray-300">{topic}</div>
                 <div className="font-bold">{hashtag}</div>
                 <div className=" text-sm text-gray-300">{impressions} Posts</div>
@@ -21,7 +21,7 @@ function Trendingtopic({ topic, hashtag, impressions }) {
 
 function WhatsHappening() {
     return (
-        <div className="bg-[#202327] m-3 w-[80%] 2xl:w-[75%]  rounded-xl p-5 space-y-2">
+        <div className=" m-3 w-[80%] 2xl:w-[75%]  rounded-xl p-5 space-y-2">
             <h1 className="text-xl font-bold px-2">What's Happening</h1>
             <Trendingtopic topic="Trending in Gujarat" hashtag="#Election2024" impressions="400.3k" />
             <Trendingtopic topic="Trending in India" hashtag="#DhruvRathee" impressions="1.2M" />

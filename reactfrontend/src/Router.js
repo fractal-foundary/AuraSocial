@@ -8,32 +8,35 @@ import Profile from './Profile/profile';
 import Root from './Root';
 
 import Signup from './Authentication/signup';
-import Authcallback from './Authentication/AuthCallback';
+import LandingPage from './LandingPage';
+import { SiRootme } from 'react-icons/si';
 
 function createRouter() {
     return createBrowserRouter([
         {
             path: '/',
-            element: <Root />,
-            children: [
-                {
-                    path: '/home',
-                    element: <Home />
-                },
-                {
-                    path: '/profile',
-                    element: <Profile />
-                },
-            ]
+            element: <LandingPage />,
+
         },
         {
             path: '/account/signup',
             element: <Signup />
         },
         {
-            path: '/account/authcallback',
-            element: <Authcallback />
-        },
+            path: '/home',
+            element: <Root></Root>,
+            children: [
+                {
+                    path: '/home/feed',
+                    element: <Home />
+                },
+                {
+                    path: '/home/profile',
+                    element: <Profile />
+                },
+            ]
+        }
+
     ])
 }
 

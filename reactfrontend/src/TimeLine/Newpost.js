@@ -28,7 +28,7 @@ function NewPost() {
                 <img className="h-12 w-12  m-3 rounded-full"
                     src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg" alt="" />
                 <div className="w-[85%]">
-                    <input className="w-full h-7 my-2 text-xl bg-black outline-none text-white" type="text"
+                    <input className="w-full h-7 my-2 text-xl  outline-none text-white" type="text"
                         placeholder="What's good?" />
 
                     {/* div: contains the icon of "earth", which has different styling than post icons...  */}

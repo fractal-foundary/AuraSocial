@@ -8,7 +8,7 @@ import Post from './Post';
 function Timeline() {
     return (
         <div className='timeline w-[85%] box-border sm:w-full border border-y-0 border-gray-700 mr-0'>
-            <div className="top flex p-3 justify-center sticky top-0 backdrop-blur-lg opacity-80 bg-black ">
+            <div className="top flex p-3 justify-center sticky top-0 backdrop-blur-lg opacity-80  ">
                 <div className="absolute w-16 h-1 bg-[#1d9bf0] bottom-0 left-[23%] rounded-full z-10"></div>
                 <div className="left bg-slate-5002 w-[48%] text-center font-semibold text-lg">For You</div>
                 <div className="right bg-slate-9002 w-[48%] text-center font-semibold text-lg">Following</div>
