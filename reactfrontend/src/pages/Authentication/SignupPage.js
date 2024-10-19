@@ -7,7 +7,7 @@ const SignupPage = () => {
     const handleTwitterSignup = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('/social_accounts/api/twitter_auth_url');
+            const response = await fetch('/social_accounts/twitter_auth_url');
             const data = await response.json();
             window.location.href = data.auth_url;
         } catch (error) {

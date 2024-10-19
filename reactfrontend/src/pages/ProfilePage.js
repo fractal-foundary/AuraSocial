@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../api';
 
-const ProfileForm = () => {
+const ProfilePage = () => {
     // Set up state to track form inputs
     const [bio, setBio] = useState('');
     const [location, setLocation] = useState('');
@@ -103,4 +103,4 @@ const ProfileForm = () => {
     );
 };
 
-export default ProfileForm;
+export default ProfilePage;

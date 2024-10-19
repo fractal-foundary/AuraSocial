@@ -99,7 +99,8 @@ def twitter_callback(request):
             # creating/register a new user after twitter_auth, because i need it for access_token model.
             new_user = USER.objects.create_user(
                 username=response.data.username,
-                # dummy email address created from twitter username, cause username is unique which in turn give me a unique email.
+                # dummy email address created from twitter username, cause username is unique which in
+                # turn give me a unique email.
                 email=f"{response.data.username}@gmail.com",
                 first_name=name[0],
                 last_name=name[1],

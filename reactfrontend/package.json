@@ -20,6 +20,7 @@
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
     "tailwindcss": "^3.4.4",
+    "thirdweb": "^5.63.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
