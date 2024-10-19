@@ -1,42 +1,44 @@
-import { useState, useEffect } from 'react';
 import {
     createBrowserRouter,
     RouterProvider
 } from 'react-router-dom';
-import Home from './Home/home';
-import Profile from './Profile/profile';
-import Root from './Root';
+import ProfilePage from '.pages/ProfilePage';
+import HomePage from './pages/HomePage';
 
-import Signup from './Authentication/signup';
-import LandingPage from './LandingPage';
-import { SiRootme } from 'react-icons/si';
+import SignupPage from '.pages/Authentication/SignupPage';
+import Register from '.pages/Authentication/register';
+import WalletConnectPage from '.pages/Authentication/ThirdWebSDK/WalletConnectPage';
+import LandingPage from './pages/LandingPage';
+import PrivateRoute from './utils/PrivateRoute';
 
 function createRouter() {
     return createBrowserRouter([
         {
             path: '/',
-            element: <LandingPage />,
-
-        },
-        {
-            path: '/account/signup',
-            element: <Signup />
+            element: <LandingPage />
         },
         {
             path: '/home',
-            element: <Root></Root>,
+            element: <PrivateRoute><HomePage /></PrivateRoute>,
             children: [
                 {
-                    path: '/home/feed',
-                    element: <Home />
-                },
-                {
-                    path: '/home/profile',
-                    element: <Profile />
+                    path: '/profile',
+                    element: <ProfilePage />
                 },
             ]
-        }
-
+        },
+        {
+            path: '/signup',
+            element: <SignupPage />
+        },
+        {
+            path: '/crytowallet',
+            element: <WalletConnectPage />
+        },
+        {
+            path: '/register',
+            element: <Register />
+        },
     ])
 }
 
