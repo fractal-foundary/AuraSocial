@@ -20,16 +20,16 @@ services:
       
   frontend:
       build:
-        context: ./reactfrontend
+        context: ./productFrontend
         dockerfile: Dockerfile
       container_name: cards_frontend
-      command: sh -c "npm install && npm start"
+      command: sh -c "npm install && npm run dev"
       restart: always
       volumes: 
         # if we only include src and public file than there will be errors due to package.json is not included.
-        - ./reactfrontend:/app/frontend/
+        - ./productFrontend:/app/frontend/
       ports:
-        - "3000:3000"
+        - "5173:5173"
       depends_on:
         - backend
   
@@ -56,15 +56,7 @@ services:
     ports:
       - 10000:10000
     volumes:
-      - ./traefik.toml:/etc/traefik/traefik.toml
-
-  # Used in development environment, MailCatcher is a free tool that can intercept emails sent from any web or mobile app.
-  # mail:
-  #   container_name: mail
-  #   image: schickling/mailcatcher
-  #   ports:
-  #     - 1080:1080
-  #     - 1025:1025     
+      - ./traefik.toml:/etc/traefik/traefik.toml 
 
 
 volumes:

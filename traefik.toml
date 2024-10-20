@@ -35,7 +35,7 @@ defaultEntryPoints = ["http"]
 [http.services]
   [http.services.react.loadBalancer]
     [[http.services.react.loadBalancer.servers]]
-      url = "http://frontend:3000"
+      url = "http://frontend:5173"
 
   [http.services.django.loadBalancer]
     [[http.services.django.loadBalancer.servers]]
