@@ -6,14 +6,17 @@ import React, { useContext } from 'react'
 import AuthContext from '../context/AuthContext';
 
 const HomePage = () => {
-    let { user } = useContext(AuthContext)
+    // let { user } = useContext(AuthContext)
+    const user = true;
     return (
         user ? (
             <div className="main flex container mx-8">
                 <Sidebar />
-                <Timeline />
-                <Trending />
-                <Outlet />
+                <div className='ml-[25%] flex'>
+                    <Timeline />
+                    <Trending />
+                    <Outlet />
+                </div>
             </div >
         ) : (
             <div className="main flex container mx-8">

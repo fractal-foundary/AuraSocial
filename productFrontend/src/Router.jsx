@@ -2,14 +2,14 @@ import {
     createBrowserRouter,
     RouterProvider
 } from 'react-router-dom';
-import ProfilePage from './pages/ProfilePage';
+// import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 
 import SignupPage from './pages/Authentication/SignupPage';
 import Register from './pages/Authentication/register';
 import WalletConnectPage from './pages/Authentication/ThirdWebSDK/WalletConnectPage';
 import LandingPage from './pages/LandingPage';
-import PrivateRoute from './utils/PrivateRoute';
+import ProfilePage from './pages/profile/ProfilePage.jsx';
 import { AuthProvider } from './context/AuthContext'
 
 function createRouter() {
@@ -20,29 +20,28 @@ function createRouter() {
         },
         {
             path: '/home',
-            element: <PrivateRoute><HomePage /></PrivateRoute>,
-            children: [
-                {
-                    path: 'home/profile',
-                    element: <ProfilePage />
-                },
-            ]
+            element: <HomePage />,
+
         },
         {
             path: '/signup',
             element: <SignupPage />
         },
         {
-            path: '/crytowallet',
+            path: '/cryptowallet',
             element: <WalletConnectPage />
         },
         {
             path: '/register',
             element: <Register />
         },
+        {
+            path: '/home/profile',
+            element: <ProfilePage></ProfilePage>
+        }
     ])
 }
 
 export default function Router() {
-    return <AuthProvider><RouterProvider router={createRouter()} /></AuthProvider>;
+    return <RouterProvider router={createRouter()} />;
 }

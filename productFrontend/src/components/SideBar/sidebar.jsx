@@ -17,9 +17,9 @@ import { PiCardsLight } from "react-icons/pi";
 function Sidebar() {
     return (
         // I removed "xl:w-[60%]" from navigatiion div and got it attached to the sidebar div.
-        <div className="navigation w-[15%] sm::flex sm:w-[30%] sticky top-0 h-fit">
+        <div className="navigation w-[15%] sm::flex sm:w-[25%] fixed h-fit border-r-2 border-gray-200">
             <div className="sidebar flex items-center flex-col float-left">
-                <ul className="flex flex-col gap-4 text-lg font-semibold px-16 items-center sm:items-start">
+                <ul className="flex flex-col gap-4 text-lg font-semibold px-4 pl-8 items-center sm:items-start">
                     <SidebarLink text="logo" Icon={PiCardsLight} link="/home" />
                     <SidebarLink text="Home" Icon={RiHomeSmileLine} link="/home" />
                     <SidebarLink text="Explore" Icon={IoIosSearch} link="/explore" />
@@ -28,7 +28,7 @@ function Sidebar() {
                     <SidebarLink text="Bookmarks" Icon={FiBookmark} link="/bookmarks" />
                     <SidebarLink text="Communities" Icon={MdOutlineGroups} link="/communities" />
                     <SidebarLink text="Premium" Icon={MdAttachMoney} link="/premium" />
-                    <SidebarLink text="Profile" Icon={GoPerson} link="/profile" />
+                    <SidebarLink text="Profile" Icon={GoPerson} link="/home/profile" />
                     <SidebarLink text="More" Icon={IoIosMore} link="/more" />
                     <li className="">
                         <div className="md:w-full m-1">
