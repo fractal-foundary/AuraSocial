@@ -95,14 +95,14 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ""
 # for origin of front-end don't use '127.0.0.1'. Use "localhost".
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:10000",
-    "http://localhost:3000",
+    "http://localhost:5173",
     "http://localhost:10000",
 ]
 
 
 # "CORS_ORIGIN_WHITELIST" changed to "CORS_ALLOWED_ORIGINS"
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:5173",
     "http://localhost:10000",
     "http://127.0.0.1:10000",
 ]
