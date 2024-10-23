@@ -1,11 +1,11 @@
 // authcallback verifies the user's credentials...
 import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 
 const Register = () => {
-
+    const AuthContext = useAuthContext()
     let { fetchJwtTokens, authTokens } = useContext(AuthContext)
 
     // States to hold form data
@@ -40,9 +40,10 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // basically the function to fetch the tokens is called in AuthContext.
-        fetchJwtTokens(e);
+        // basically the function to fetch the jwttokens is called in AuthContext.
         if (authTokens) {
+            // fetchJwtTokens is only going to called once, as if tokens are already fetched no need to call again.
+            fetchJwtTokens(e);
         }
 
         try {

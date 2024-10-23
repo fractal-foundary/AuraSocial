@@ -28,7 +28,7 @@ function Sidebar() {
                     <SidebarLink text="Bookmarks" Icon={FiBookmark} link="/bookmarks" />
                     <SidebarLink text="Communities" Icon={MdOutlineGroups} link="/communities" />
                     <SidebarLink text="Premium" Icon={MdAttachMoney} link="/premium" />
-                    <SidebarLink text="Profile" Icon={GoPerson} link="/home/profile" />
+                    <SidebarLink text="Profile" Icon={GoPerson} link="/profile" />
                     <SidebarLink text="More" Icon={IoIosMore} link="/more" />
                     <li className="">
                         <div className="md:w-full m-1">
