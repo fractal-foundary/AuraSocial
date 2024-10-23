@@ -10,34 +10,40 @@ import Register from './pages/Authentication/register';
 import WalletConnectPage from './pages/Authentication/ThirdWebSDK/WalletConnectPage';
 import LandingPage from './pages/LandingPage';
 import ProfilePage from './pages/profile/ProfilePage.jsx';
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext.jsx';
+import SigninPage from './pages/Authentication/Signin.jsx';
+// import { AuthProvider } from './context/AuthContext'
 
 function createRouter() {
     return createBrowserRouter([
         {
             path: '/',
-            element: <LandingPage />
+            element: <AuthProvider><LandingPage /></AuthProvider>
         },
         {
             path: '/home',
-            element: <HomePage />,
+            element: <AuthProvider><HomePage /></AuthProvider>,
 
         },
         {
             path: '/signup',
-            element: <SignupPage />
+            element: <AuthProvider><SignupPage /></AuthProvider>
         },
         {
             path: '/cryptowallet',
-            element: <WalletConnectPage />
+            element: <AuthProvider><WalletConnectPage /></AuthProvider>
         },
         {
             path: '/register',
-            element: <Register />
+            element: <AuthProvider><Register /></AuthProvider>
         },
         {
             path: '/home/profile',
-            element: <ProfilePage></ProfilePage>
+            element: <AuthProvider><ProfilePage /></AuthProvider>
+        },
+        {
+            path: '/login',
+            element: <AuthProvider><SigninPage /></AuthProvider>
         }
     ])
 }

@@ -3,7 +3,7 @@ import Trending from '../components/Trending/Trending';
 import Sidebar from '../components/SideBar/sidebar';
 import { Outlet } from 'react-router-dom';
 import React, { useContext } from 'react'
-import AuthContext from '../context/AuthContext';
+// import AuthContext from '../context/AuthContext';
 
 const HomePage = () => {
     // let { user } = useContext(AuthContext)
