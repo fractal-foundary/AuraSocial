@@ -54,7 +54,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         # username unique = False in development for testing purposes. but in production it will be true.
         max_length=15,
-        unique=False,
+        unique=True,
         blank=False,
     )
     # email unique = False in development for testing purposes. but in production it will be true.

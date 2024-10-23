@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react'
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
 const AuthContext = createContext()
 
@@ -11,38 +12,36 @@ export const AuthProvider = ({ children }) => {
     let [user, setUser] = useState(null)
     let [authTokens, setAuthTokens] = useState(null)
 
-    const navigate = useNavigate()
-
-    let loginUser = async (e) => {
+    // I want this fetchJwtTokens method to just fetch jwt tokens, save them and set user.
+    let fetchJwtTokens = async (e) => {
         e.preventDefault()
-        const response = await fetch('/api/token/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username: e.target.username.value, password: e.target.password.value })
-        });
+        const response = await axios.post('/api/user/token/');
 
-        let data = await response.json();
+        let data = await response.data;
 
         if (data) {
             localStorage.setItem('authTokens', JSON.stringify(data));
             setAuthTokens(data)
+            // decoding the access_token we got from the backend.
+            // it contains the username of the user.So, setUser is just contains the username.
             setUser(jwtDecode(data.access))
-            navigate('/')
         } else {
-            alert('Something went wrong while loggin in the user!')
+            alert('Something went wrong while "fetching the jwt tokens" and registering in the user!')
         }
     }
 
+    // this method handles logout of the user.
     let logoutUser = (e) => {
         e.preventDefault()
+        localStorage.removeItem('authTokens')
+        setAuthTokens(null)
+        setUser(null)
     }
 
     let contextData = {
         user: user,
         authTokens: authTokens,
-        loginUser: loginUser,
+        fetchJwtTokens: fetchJwtTokens,
         logoutUser: logoutUser,
     }
 

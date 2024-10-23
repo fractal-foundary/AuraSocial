@@ -1,8 +1,15 @@
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.core.cache import cache
 from rest_framework import status
-from .serializers import ProfileSerializer, UserCreateSerializer, UserSerializer
+from .serializers import (
+    ProfileSerializer,
+    UserCreateSerializer,
+    UserSerializer,
+)
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Profile
 
 
@@ -31,6 +38,20 @@ class UserUpdateView(APIView):
 
         # return the new user details to flag that new user has been created and saved in the database.
         return Response(new_user_details.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["POST"])
+def CustomTokenObtainPairView(request):
+    user = cache.get("new_user")
+    refresh = RefreshToken.for_user(user)
+
+    return Response(
+        {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        },
+        status.HTTP_200_OK,
+    )
 
 
 class ProfileUpdateView(APIView):

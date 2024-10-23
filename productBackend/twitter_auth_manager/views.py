@@ -40,7 +40,7 @@ TWITTER_SCOPE = getattr(
 FRONTEND_REGISTER_USER = getattr(
     settings,
     "FRONTEND_PROFILE_URL",
-    "http://127.0.0.1:10000/account/register",
+    "http://127.0.0.1:10000/register",
 )
 
 
@@ -112,6 +112,10 @@ def twitter_callback(request):
 
             # Not going to login the user using login(request, user) in current backend server session.
             # Instead using "jwt authentication" for new user while keeping the admin user in current session.
+
+            # here, i am going the cache the newly created user, so that jwtTokens for this user can be generated.
+            # setting the new_user in cache for 30mins.
+            cache.set("new_user", new_user, 1800)
 
             redirect_url = f"{FRONTEND_REGISTER_USER}?status=success"
         except Exception as e:

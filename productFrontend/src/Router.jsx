@@ -33,7 +33,7 @@ function createRouter() {
             element: <SignupPage />
         },
         {
-            path: '/crytowallet',
+            path: '/cryptowallet',
             element: <WalletConnectPage />
         },
         {
