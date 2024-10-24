@@ -10,9 +10,9 @@ const HomePage = () => {
     const user = true;
     return (
         user ? (
-            <div className="main flex container mx-8">
+            <div className="main flex container">
                 <Sidebar />
-                <div className='ml-[25%] flex'>
+                <div className='ml-[22%] flex'>
                     <Timeline />
                     <Trending />
                     <Outlet />

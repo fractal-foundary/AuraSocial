@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const AuthContext = createContext()
 
-// export default AuthContext;
+export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
 
