@@ -22,9 +22,10 @@ function Trendingtopic({ topic, hashtag, impressions }) {
 function WhatsHappening() {
     return (
         <div className=" m-3 w-[80%] 2xl:w-[75%]  rounded-xl p-5 space-y-2">
-            <h1 className="text-xl font-bold px-2">Recently released cards</h1>
+            <h1 className="text-xl font-bold px-2">Popular Tokens</h1>
             <Trendingtopic topic="username" hashtag="Name of token" impressions="$1.20" />
-            <Trendingtopic topic="Trending in Asia" hashtag="#WeSupportPalestine" impressions="20M" />
+            <Trendingtopic topic="username" hashtag="Name of token" impressions="$1.20" />
+
         </div>
     );
 }
