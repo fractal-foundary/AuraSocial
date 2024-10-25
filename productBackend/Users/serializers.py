@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Profile, Tweet, Follow
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 from re import search
 
 # getting the custom user model we made the right way.
@@ -93,3 +94,11 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ["id", "user", "followed_user", "date"]
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token["username"] = user.username
+        return token

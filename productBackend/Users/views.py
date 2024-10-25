@@ -25,6 +25,7 @@ class UserUpdateView(APIView):
         data = request.data
 
         # got the serializer instance for the fetched data, and passsed that data to constructor.
+        # Doubt, than visit: https://www.django-rest-framework.org/api-guide/serializers/#saving-instances
         serializer = UserCreateSerializer(request.user, data=data)
 
         # check data validity.
@@ -32,6 +33,7 @@ class UserUpdateView(APIView):
             return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
 
         # update the new user.
+        print(request.user)
         user = serializer.update(request.user, serializer.validated_data)
         # get the new user details.
         new_user_details = UserSerializer(user)
