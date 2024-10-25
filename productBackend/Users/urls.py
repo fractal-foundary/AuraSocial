@@ -11,4 +11,5 @@ urlpatterns = [
     path("token/verify/", TokenVerifyView.as_view()),
     path("profile/update/", views.ProfileUpdateView.as_view(), name="update-profile"),
     path("register/", views.UserUpdateView.as_view(), name="create-new-user"),
+    # path("social_score/", views.calculate_social_score, name="Social Score"),
 ]

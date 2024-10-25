@@ -13,6 +13,7 @@ import { MdAttachMoney } from "react-icons/md";
 import { GoPerson } from "react-icons/go";
 import { IoIosMore } from "react-icons/io";
 import { PiCardsLight } from "react-icons/pi";
+import { SiCoinmarketcap } from "react-icons/si";
 
 function Sidebar() {
     return (
@@ -27,7 +28,7 @@ function Sidebar() {
                     <SidebarLink text="Messages" Icon={IoChatbubblesOutline} link="/messages" />
                     <SidebarLink text="Bookmarks" Icon={FiBookmark} link="/bookmarks" />
                     <SidebarLink text="Communities" Icon={MdOutlineGroups} link="/communities" />
-                    <SidebarLink text="Premium" Icon={MdAttachMoney} link="/premium" />
+                    <SidebarLink text="Marketplace" Icon={SiCoinmarketcap} link="https://marketplace.thirdweb-preview.com/" />
                     <SidebarLink text="Profile" Icon={GoPerson} link="/profile" />
                     <SidebarLink text="More" Icon={IoIosMore} link="/more" />
                     <li className="">

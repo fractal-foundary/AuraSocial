@@ -96,6 +96,7 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     # I used "auto_now_add=True" to automatically set the date when the user is created.And I didnt not used "auto_now=True" because it Automatically set the field to "now" every time the object is saved.
     joined = models.DateTimeField(auto_now_add=True)
+    # social_score = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.user.username} Profile"

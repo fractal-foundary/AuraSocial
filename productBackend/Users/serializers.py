@@ -76,26 +76,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         ]
 
 
-class TweetSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-    likes_count = serializers.ReadOnlyField()
-    is_liked = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Tweet
-        fields = ["id", "user", "content", "created_at", "likes_count", "is_liked"]
-
-    def get_is_liked(self, obj):
-        user = self.context["request"].user
-        return user in obj.likes.all()
-
-
-class FollowSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Follow
-        fields = ["id", "user", "followed_user", "date"]
-
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

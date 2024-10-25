@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import Register from './pages/Authentication/register';
 import WalletConnectPage from './pages/Authentication/ThirdWebSDK/WalletConnectPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import Marketplace from './pages/marketplace';
 import Sidebar from './components/SideBar/sidebar';
 
 // Layout Components
@@ -31,6 +32,7 @@ const AuthLayout = () => {
 const PublicOnlyLayout = () => {
     return !user ? <Outlet /> : <Navigate to="/home" replace />;
 };
+
 
 const routes = [
     {
@@ -61,6 +63,10 @@ const routes = [
                     {
                         path: 'profile',
                         element: <ProfilePage />,
+                    },
+                    {
+                        path: 'marketplace',
+                        element: <Marketplace />,
                     },
                     {
                         path: 'cryptowallet',
