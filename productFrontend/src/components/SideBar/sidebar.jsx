@@ -30,7 +30,6 @@ function Sidebar() {
                     <SidebarLink text="Communities" Icon={MdOutlineGroups} link="/communities" />
                     <SidebarLink text="Marketplace" Icon={SiCoinmarketcap} link="https://marketplace.thirdweb-preview.com/" />
                     <SidebarLink text="Profile" Icon={GoPerson} link="/profile" />
-                    <SidebarLink text="More" Icon={IoIosMore} link="/more" />
                     <li className="">
                         <div className="md:w-full m-1">
                             <button
@@ -40,7 +39,7 @@ function Sidebar() {
                         </div>
                     </li>
                 </ul>
-                <div className="w-[70%] ml-9 justify-between rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer">
+                <div className="w-[70%] justify-between rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer">
                     <div className="item my-2 p-2 flex gap-1">
                         <img src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg" alt="" className="w-10 h-10 rounded-full" />
                         <div className="mx-0">

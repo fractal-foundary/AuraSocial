@@ -19,7 +19,7 @@ const RootLayout = () => (
 );
 
 const AuthenticatedLayout = () => (
-    <div className="main flex container mx-8">
+    <div className="">
         <Sidebar />
         <Outlet />
     </div >

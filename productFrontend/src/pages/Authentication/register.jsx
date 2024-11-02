@@ -41,7 +41,7 @@ const Register = () => {
         e.preventDefault();
 
         // basically the function to fetch the jwttokens is called in AuthContext.
-        if (authTokens) {
+        if (!authTokens) {
             // fetchJwtTokens is only going to called once, as if tokens are already fetched no need to call again.
             fetchJwtTokens(e);
         }
