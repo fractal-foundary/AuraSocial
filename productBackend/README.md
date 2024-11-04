@@ -1,4 +1,4 @@
-# Things to complete
+# Things to complete: Don't hesitate
 
 ## backend
 * Twitter Auth
@@ -7,11 +7,16 @@
     - check whole jwt authentication process in registeration. (fool proof)
         - no need to store username in jwt token.
     - User CRUD --- serializer + view
+        - when user deleted his (profile + access_token) is also deleted with it.
     - Profile CRUD ---- serializer + view
         - add (Social Score) + (wallet address ---- why? cause i want the user identity on the blockchain world) in profile model
-    - calculate the initial social score
+    - calculate the initial social score using "Celery Beat" or "cron jobs" not using views or serializers.
 * Posts
     - Post CRUD ---- serializer + view
+* Follow
+    - follow -----> create
+    - unfollow -----> delete
+    - list follows and following accounts.
 
 
 ## frontend
@@ -28,6 +33,7 @@
 * profilePage
     - add social score
     - profile form
+        - connect wallet button
     - all posts till date user made section
     - media user uploaded section
     - nfts you hold section
@@ -43,5 +49,8 @@
 * More
     - Settings
         - Account details, and delete the account
-* In the very last of sidebar.
-    - The pic, should be clicked to give you logout button.
+* In the very last of sidebar
+    - The pic, should be clicked to give you logout button
+* miscellaneous
+    * follow button on (profile + top socialScore)
+    * list of followers and following account on profile.

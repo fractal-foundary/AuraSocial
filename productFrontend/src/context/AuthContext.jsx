@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const AuthContext = createContext()
 
-// export default AuthContext;
+export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
 
@@ -14,18 +14,19 @@ export const AuthProvider = ({ children }) => {
     // I want this fetchJwtTokens method to just fetch jwt tokens, save them and set user.
     let fetchJwtTokens = async (e) => {
         e.preventDefault()
-        const response = await axios.post('/api/user/token/');
+
+        const response = await axios.get('/api/user/token/');
 
         let data = await response.data;
 
         if (data) {
             localStorage.setItem('authTokens', JSON.stringify(data));
-            setAuthTokens(data)
-            // decoding the access_token we got from the backend.
-            // it contains the username of the user.So, setUser is just contains the username.
-            setUser(jwtDecode(data.access))
+            setAuthTokens(data);
+            setUser(jwtDecode(data.access));
+            console.log("authcontext", user, data)
+            return data;
         } else {
-            alert('Something went wrong while "fetching the jwt tokens" and registering in the user!')
+            throw new Error('Something went wrong while "fetching the jwt tokens" and registering in the user!')
         }
     }
 
@@ -50,5 +51,3 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
-
-export const useAuthContext = () => React.useContext(AuthContext)

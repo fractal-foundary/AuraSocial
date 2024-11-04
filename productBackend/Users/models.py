@@ -96,7 +96,10 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     # I used "auto_now_add=True" to automatically set the date when the user is created.And I didnt not used "auto_now=True" because it Automatically set the field to "now" every time the object is saved.
     joined = models.DateTimeField(auto_now_add=True)
-    # social_score = models.PositiveIntegerField()
+    social_score = models.PositiveIntegerField(default=0)
+    # For now, Ethereum wallet addresses
+    # Crypto wallet addresses can be 40 alphanumeric characters, Suitable for Ethereum addresses
+    wallet_address = models.CharField(max_length=42, blank=True, default="0x00")
 
     def __str__(self):
         return f"{self.user.username} Profile"

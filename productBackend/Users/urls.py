@@ -6,10 +6,9 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    path("token/", views.CustomTokenObtainPairView),
-    path("token/refresh/", TokenRefreshView.as_view()),
-    path("token/verify/", TokenVerifyView.as_view()),
-    path("profile/update/", views.ProfileUpdateView.as_view(), name="update-profile"),
-    path("register/", views.UserUpdateView.as_view(), name="create-new-user"),
-    # path("social_score/", views.calculate_social_score, name="Social Score"),
+    path("token/", views.CustomTokenObtainPairView, name="get-jwt-tokens"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="refresh-jwt-tokens"),
+    path("token/verify/", TokenVerifyView.as_view(), name="verify-jwt-tokens"),
+    path("register/", views.UserAPIView.as_view(), name="create-new-user"),
+    path("profile/", views.ProfileAPIView.as_view(), name="update-profile"),
 ]

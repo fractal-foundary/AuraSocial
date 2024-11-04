@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
-// import { user } from './context/AuthContext';
-const user = true;
+import React, { useContext } from 'react';
+import AuthContext from './context/AuthContext';
 
 // Page imports
 import LandingPage from './pages/LandingPage';
@@ -26,10 +26,13 @@ const AuthenticatedLayout = () => (
 );
 
 const AuthLayout = () => {
+    let { user } = useContext(AuthContext)
+    console.log(user)
     return user ? <AuthenticatedLayout /> : <Navigate to="/" replace />;
 };
 
 const PublicOnlyLayout = () => {
+    let { user } = useContext(AuthContext)
     return !user ? <Outlet /> : <Navigate to="/home" replace />;
 };
 
