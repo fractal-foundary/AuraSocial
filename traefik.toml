@@ -24,7 +24,7 @@ defaultEntryPoints = ["http"]
 [http.routers]
     [http.routers.django]
         service = "django"
-        rule = "PathPrefix(`/accounts`) || PathPrefix(`/_allauth`) || PathPrefix(`/api`) || PathPrefix(`/social_accounts`)"
+        rule = "PathPrefix(`/api`) || PathPrefix(`/social_accounts`)"
         entrypoints = ["web"]
 
     [http.routers.react]
@@ -32,10 +32,20 @@ defaultEntryPoints = ["http"]
         rule = "PathPrefix(`/`)"
         entrypoints = ["web"]
 
+    [http.routers.nftmarketplace_next]
+        service = "nftmarketplace_next"
+        rule = "PathPrefix(`/marketplace`)"
+        entrypoints = ["web"]
+    
+
 [http.services]
   [http.services.react.loadBalancer]
     [[http.services.react.loadBalancer.servers]]
       url = "http://frontend:5173"
+
+  [http.services.nftmarketplace_next.loadBalancer]
+    [[http.services.nftmarketplace_next.loadBalancer.servers]]
+      url = "http://nftMarketplace:3000"
 
   [http.services.django.loadBalancer]
     [[http.services.django.loadBalancer.servers]]

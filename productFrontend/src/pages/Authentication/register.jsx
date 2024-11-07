@@ -1,9 +1,10 @@
 // authcallback verifies the user's credentials...
 import React, { useContext, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 
+// TODO: try to use throw error, below code better.
 const Register = () => {
     let { user, fetchJwtTokens, authTokens } = useContext(AuthContext)
 
@@ -51,15 +52,13 @@ const Register = () => {
             // Get tokens if not already available
             let tokens = authTokens;
             if (!tokens) {
+                // Since authTokens is a state variable, updates to it are asynchronous and may not reflect immediately within the same function. 
                 tokens = await fetchJwtTokens(e);
             }
             console.log("user: ", user, " tokens: ", tokens)
 
-            // Register user with the token
+            // Register user with the token  
             let data = await registerUser(formData, tokens.access);
-            if (!data) {
-                console.log("Register data: nodata")
-            }
 
             setSuccess('Registration successful!');
             navigate('/home');

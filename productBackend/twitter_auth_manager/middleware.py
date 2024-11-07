@@ -13,7 +13,7 @@ class TwitterTokenRefreshMiddleware:
                 print("current user ---------> ", request.user)
                 token = Access_token.objects.get(user=request.user)
                 if not token.is_valid:
-                    print(type(token.refresh_token))
+                    print("\n-------- Refreshing the access token -----------\n")
                     twitter_refresh_token(token)
                 else:
                     print(
