@@ -96,6 +96,7 @@ class Profile(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     # I used "auto_now_add=True" to automatically set the date when the user is created.And I didnt not used "auto_now=True" because it Automatically set the field to "now" every time the object is saved.
     joined = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     social_score = models.PositiveIntegerField(default=0)
     # For now, Ethereum wallet addresses
     # Crypto wallet addresses can be 40 alphanumeric characters, Suitable for Ethereum addresses
@@ -133,9 +134,7 @@ class Profile(models.Model):
 # Thats why no need to create a serializer and views for this model.
 class Follow(models.Model):
     """
-    "Follow": consist of user and followed_user. So, an object of this class will consist of all the
-    users ( user ) and whom they follow ( followed_user ). An object of a model in django is a row of data.
-    That means one object of this model consist of a "user" and whom "this user" follows.
+    user ========> followed_user (instance/row of model/database)
     """
 
     user = models.ForeignKey(

@@ -8,15 +8,22 @@
         - no need to store username in jwt token.
     - User CRUD --- serializer + view
         - when user deleted his (profile + access_token) is also deleted with it.
+        - without twitter authentication no new user can be created.
     - Profile CRUD ---- serializer + view
         - add (Social Score) + (wallet address ---- why? cause i want the user identity on the blockchain world) in profile model
-    - calculate the initial social score using "Celery Beat" or "cron jobs" not using views or serializers.
 * Posts
     - Post CRUD ---- serializer + view
+* RePosts
+    - repost CRUD ----- serializer + view
+* Bookmark
+    - bookmark CRUD ----- serializer + view
 * Follow
     - follow -----> create
     - unfollow -----> delete
-    - list follows and following accounts.
+    - list follows and following accounts. (view)
+* coming soon...
+    - calculate the initial social score using "Celery Beat" or "cron jobs" not using views or serializers.
+    - search engine
 
 
 ## frontend

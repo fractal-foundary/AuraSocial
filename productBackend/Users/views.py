@@ -1,8 +1,7 @@
 from rest_framework import views, viewsets
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions, authentication
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .serializers import (
     ProfileSerializer,
@@ -11,7 +10,6 @@ from .serializers import (
     ProfileCUDSerializer,
 )
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.shortcuts import get_object_or_404
 from .models import Profile
 
 
@@ -69,7 +67,6 @@ def CustomTokenObtainPairView(request):
 
 
 class ProfileAPIView(views.APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         profile = Profile.objects.get(user=request.user)

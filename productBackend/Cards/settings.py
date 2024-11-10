@@ -25,6 +25,7 @@ ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "localhost", "backend"]
 # Application definition
 
 INSTALLED_APPS = [
+    "Posts.apps.PostsConfig",
     "twitter_auth_manager.apps.TwitterAuthManagerConfig",
     "Users.apps.UsersConfig",
     "django.contrib.sites",
@@ -195,7 +196,11 @@ USE_I18N = True
 USE_TZ = True
 
 
+# i dont really need static as we are using react frontend so, any static file used is there only.
 STATIC_URL = "static/"
+
+# however we are using media as we are saving user generated content.
+MEDIA_ROOT = "media/"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
