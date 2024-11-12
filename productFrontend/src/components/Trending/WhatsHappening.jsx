@@ -21,7 +21,7 @@ function Trendingtopic({ topic, hashtag, impressions }) {
 
 function WhatsHappening() {
     return (
-        <div className=" m-3 w-[80%] 2xl:w-[75%]  rounded-xl p-5 space-y-2">
+        <div className=" m-2 rounded-xl p-2 space-y-2">
             <h1 className="text-xl font-bold px-2">Popular NFTs</h1>
             <Trendingtopic topic="Trending in Dogs Collection" hashtag="#chuwava" impressions="0.5eth" />
             <Trendingtopic topic="Trending in Meta collection" hashtag="#Lens2025" impressions="1eth" />

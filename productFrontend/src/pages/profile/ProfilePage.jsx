@@ -9,7 +9,7 @@ function ProfilePage() {
     return (
         <div className='flex '>
             <Sidebar></Sidebar>
-            <div className='w-full ml-[25%]'>
+            <div className='w-full ml-[20%]'>
                 <ProfileHeader></ProfileHeader>
                 <ProfileCard></ProfileCard>
                 <PostCard></PostCard>

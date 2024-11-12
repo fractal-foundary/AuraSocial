@@ -6,7 +6,7 @@ import React, { useContext } from 'react'
 
 const HomePage = () => {
     return (
-        <div className='ml-[25%] flex'>
+        <div className='ml-[20%] flex'>
             <Timeline />
             <Trending />
         </div>

@@ -1,0 +1,15 @@
+.trending {
+    overflow-y: scroll; /* or auto */
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.trending::-webkit-scrollbar {  
+    width: 0;  
+    background: transparent; /* Optional: makes the scrollbar completely invisible */
+}
+
+/* For Firefox */
+.trending {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}

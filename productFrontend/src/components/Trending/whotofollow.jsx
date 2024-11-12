@@ -1,31 +1,97 @@
-
-// TODO: need to improve the style of WhotoFollow component.Abhi ke liye sahi h.
-
-function Persontofollow({ Name, Username, ImageLink }) {
+function PersonToFollow({ Name, UserName, Score, ImageLink }) {
     return (
-        <div className="flex justify-between hover:bg-slate-100 rounded items-center">
-            <div className="item my-2 p-2 flex ">
-                <img src={ImageLink} alt="" className="w-12 h-12 rounded-full" />
-                <div className="mx-3">
-                    <div className="font-bold ">{Name}</div>
-                    <div className=" text-sm text-red-500">Social Score - {Username}</div>
+        <div className="flex items-center justify-between p-3 hover:bg-gray-50 transition-colors rounded-lg group">
+            <div className="flex items-center space-x-3">
+                {/* Profile Image with fallback */}
+                <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-gray-100">
+                    <img
+                        src={ImageLink}
+                        alt={`${Name}'s profile`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                            e.target.src = "https://via.placeholder.com/48"; // Fallback image
+                        }}
+                    />
+                </div>
+
+                {/* User Info */}
+                <div className="flex flex-col">
+                    <span className="font-semibold text-gray-900 hover:underline cursor-pointer">
+                        {Name}
+                    </span>
+                    <div className="flex items-center justify-around gap-x-1">
+                        <span className="text-xs text-gray-600">@{UserName}</span>
+                        <span className="p-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium">
+                            {Score}
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <button className="bg-white text-black h-8 rounded-full xl:flex items-center px-3 font-semibold mx-2 hidden">VISIT</button>
+            {/* Visit Button */}
+            <button className="hidden xl:flex items-center p-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                VISIT
+            </button>
         </div>
     );
 }
 
-
 function WhotoFollow() {
-    return (
-        <div className=" m-3 w-[80%] 2xl:w-[75%]  rounded-xl p-5 space-y-2">
-            <h1 className="text-md lg:text-xl text-center lg:text-start font-bold px-2">TOP Social Scores</h1>
+    const topUsers = [
+        {
+            Name: "Elon Musk",
+            Score: "98",
+            UserName: "elonmusk",
+            ImageLink: "https://pbs.twimg.com/profile_images/1849727333617573888/HBgPUrjG_400x400.jpg"
+        },
+        {
+            Name: "Gyan Dev",
+            Score: "90",
+            UserName: "gyandev",
+            ImageLink: "https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg"
+        },
+        {
+            Name: "Navneet Bharadwaj",
+            Score: "87",
+            UserName: "navneet",
+            ImageLink: "https://pbs.twimg.com/profile_images/1257381512498077696/ACJBYZ-n_normal.jpg"
+        }
+    ].sort((a, b) => b.Score - a.Score); // Sort by social score
 
-            <Persontofollow Name="Gyan Dev" Username="90" ImageLink="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg" />
-            <Persontofollow Name="Navneet Bharadwaj" Username="87" ImageLink="https://pbs.twimg.com/profile_images/1257381512498077696/ACJBYZ-n_normal.jpg" />
-            <Persontofollow Name="Elon Musk" Username="98" ImageLink="https://pbs.twimg.com/profile_images/1849727333617573888/HBgPUrjG_400x400.jpg" />
+    return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            {/* Header */}
+            <div className="p-4 border-b border-gray-100">
+                <h2 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
+                    <svg
+                        className="w-5 h-5 text-blue-500"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+
+                    >
+                        <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span>Top Social Scores</span>
+                </h2>
+            </div>
+
+            {/* User List */}
+            <div className="divide-y divide-gray-100">
+                {topUsers.map((user, index) => (
+                    <PersonToFollow
+                        key={index}
+                        Name={user.Name}
+                        UserName={user.UserName}
+                        Score={user.Score}
+                        ImageLink={user.ImageLink}
+                    />
+                ))}
+            </div>
+
 
         </div>
     );

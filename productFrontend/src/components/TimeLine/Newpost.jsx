@@ -1,67 +1,216 @@
-// IconContext is used here to style the react-icons components.
-import { IconContext } from "react-icons";
+import React, { useState, useRef, useEffect } from 'react';
+import { BsEmojiSmile, BsFiletypeGif } from 'react-icons/bs';
+import { FaRegUserCircle } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
-// Importing the icons to be used in creating new post.
-import { MdOutlinePublic } from "react-icons/md";
-import { MdOutlineImage } from "react-icons/md";
-import { HiOutlineGif } from "react-icons/hi2";
-// I am using "polls" icon instead of "ballot"
-import { MdOutlinePoll } from "react-icons/md";
-import { BsEmojiSmile } from "react-icons/bs";
-import { RiCalendarScheduleLine } from "react-icons/ri";
-import { IoLocationOutline } from "react-icons/io5";
+const SAMPLE_GIFS = [
+    'https://media.giphy.com/media/example1.gif',
+    'https://media.giphy.com/media/example2.gif',
+    'https://media.giphy.com/media/example3.gif',
+];
 
-// StyleIcon: function used to style the icons used in post.As they all have exactly same styling.
-function StyleIcon({ Icon }) {
+const EMOJI_LIST = ['😊', '😂', '🥰', '😍', '😎', '🤩', '😋', '🤗', '😄', '👍', '❤️', '🎉', '✨', '🔥', '💯'];
+
+const NewPost = () => {
+    const [content, setContent] = useState('');
+    const [isPosting, setIsPosting] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const [showGifPicker, setShowGifPicker] = useState(false);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [selectedGif, setSelectedGif] = useState(null);
+    const textareaRef = useRef(null);
+    const gifPickerRef = useRef(null);
+    const emojiPickerRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (gifPickerRef.current && !gifPickerRef.current.contains(event.target)) {
+                setShowGifPicker(false);
+            }
+            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+                setShowEmojiPicker(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if ((!content.trim() && !selectedGif)) return;
+
+        setIsPosting(true);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setContent('');
+        setSelectedGif(null);
+        setIsPosting(false);
+        setIsFocused(false);
+    };
+
+    const insertEmoji = (emoji) => {
+        const cursorPosition = textareaRef.current.selectionStart;
+        const newContent = content.slice(0, cursorPosition) + emoji + content.slice(cursorPosition);
+        setContent(newContent);
+    };
+
+    const selectGif = (gifUrl) => {
+        setSelectedGif(gifUrl);
+        setShowGifPicker(false);
+    };
+
     return (
-        <IconContext.Provider value={{ className: 'material-symbols-outlined text-xl text-[#1d9bf0] cursor-pointer' }}>
-            <Icon />
-        </IconContext.Provider>
-    );
-}
+        <div className={` w-[90%]
+         rounded-xl border bg-white 
+            shadow-sm transition-all duration-200 relative
+            ${isFocused ? 'border-blue-200 shadow-lg' : 'border-gray-100'}
+        `}>
+            <form onSubmit={handleSubmit}>
+                <div className="p-4">
+                    <div className="flex space-x-3">
+                        <div className="w-12 h-12 flex-shrink-0 text-gray-400">
+                            <FaRegUserCircle size="100%" />
+                        </div>
 
-function NewPost() {
-    return (
-        <div>
-            <div className="flex gap-4 my-3">
-                {/* TODO: insert picture from django api. */}
-                <img className="h-12 w-12  m-3 rounded-full"
-                    src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg" alt="" />
-                <div className="w-[85%]">
-                    <input className="w-full h-7 my-2 text-xl  outline-none text-white" type="text"
-                        placeholder="What's good?" />
+                        <div className="flex-1">
+                            <textarea
+                                ref={textareaRef}
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => setIsFocused(false)}
+                                placeholder="What's on your mind?"
+                                className="w-full resize-none border-none focus:outline-none text-lg placeholder-gray-400 p-0 min-h-[120px]"
+                            />
 
-                    {/* div: contains the icon of "earth", which has different styling than post icons...  */}
-                    <div className="text-[#1d9bf0] flex items-center gap-1 w-full my-4">
-                        <IconContext.Provider value={{ classNameName: 'material-symbols-outlined text-xl' }}>
-                            <MdOutlinePublic />
-                        </IconContext.Provider>
-                        <span className="font-bold">Everyone can reply</span>
+                            {selectedGif && (
+                                <div className="relative mt-2 rounded-lg overflow-hidden border border-gray-200">
+                                    <img
+                                        src={selectedGif}
+                                        alt="Selected GIF"
+                                        className="w-full h-48 object-cover"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setSelectedGif(null)}
+                                        className="absolute top-2 right-2 p-1 bg-gray-800/70 rounded-full text-white hover:bg-gray-800"
+                                    >
+                                        <IoMdClose size={16} />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className={`
+                    flex items-center justify-between px-4 py-3
+                    border-t border-gray-100 bg-gray-50/40
+                    transition-colors duration-200 relative
+                    ${isFocused ? 'bg-blue-50/20' : ''}
+                `}>
+                    <div className="flex space-x-1">
+                        <div ref={gifPickerRef} className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowGifPicker(!showGifPicker);
+                                    setShowEmojiPicker(false);
+                                }}
+                                className={`
+                                    p-2 rounded-full transition-colors
+                                    ${showGifPicker
+                                        ? 'bg-blue-100 text-blue-600'
+                                        : 'text-blue-500 hover:bg-blue-100/50'
+                                    }
+                                `}
+                            >
+                                <BsFiletypeGif size={20} />
+                            </button>
+
+                            {showGifPicker && (
+                                <div className="absolute bottom-full mb-2 left-0 bg-white rounded-lg shadow-lg border border-gray-200 p-2 w-72">
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {/* Replace with actual GIF integration */}
+                                        <button
+                                            type="button"
+                                            onClick={() => selectGif('/api/placeholder/150/150')}
+                                            className="aspect-square bg-gray-100 rounded hover:bg-gray-200 transition-colors"
+                                        >
+                                            Sample GIF
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => selectGif('/api/placeholder/150/150')}
+                                            className="aspect-square bg-gray-100 rounded hover:bg-gray-200 transition-colors"
+                                        >
+                                            Sample GIF
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div ref={emojiPickerRef} className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowEmojiPicker(!showEmojiPicker);
+                                    setShowGifPicker(false);
+                                }}
+                                className={`
+                                    p-2 rounded-full transition-colors
+                                    ${showEmojiPicker
+                                        ? 'bg-blue-100 text-blue-600'
+                                        : 'text-blue-500 hover:bg-blue-100/50'
+                                    }
+                                `}
+                            >
+                                <BsEmojiSmile size={20} />
+                            </button>
+
+                            {showEmojiPicker && (
+                                <div className="absolute bottom-full mb-2 left-0 bg-white rounded-lg shadow-lg border border-gray-200 p-2 w-72">
+                                    <div className="grid grid-cols-5 gap-2">
+                                        {EMOJI_LIST.map((emoji, index) => (
+                                            <button
+                                                key={index}
+                                                type="button"
+                                                onClick={() => insertEmoji(emoji)}
+                                                className="p-2 text-xl hover:bg-gray-100 rounded transition-colors"
+                                            >
+                                                {emoji}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
-                    {/* this div is line above all the icons.. */}
-                    <div className="w-[92.5%] h-[0.2px] my-3 bg-slate-300 opacity-60"></div>
-
-                    {/* div: contains all the icons used in creating new post. */}
-                    <div className="icons flex gap-2 justify-between items-center">
-                        <div className="flex gap-1 sm:gap-4">
-                            <StyleIcon Icon={MdOutlineImage} />
-                            <StyleIcon Icon={HiOutlineGif} />
-                            <StyleIcon Icon={MdOutlinePoll} />
-                            <StyleIcon Icon={BsEmojiSmile} />
-                            <StyleIcon Icon={RiCalendarScheduleLine} />
-                            <StyleIcon Icon={IoLocationOutline} />
-                        </div>
-                        {/* "POST" button */}
-                        <button className="bg-[#1d9bf0] text-white rounded-full flex items-center   justify-around px-2 sm:px-4 py-1 font-semibold sm:mx-12 sm:ml-3 w-fit h-fit mx-3">
-                            <span className="xl:block hidden bg-[#1d9bf0]">Post</span>
+                    <div className="flex items-center space-x-3">
+                        <span className="text-sm text-gray-400">
+                            {content.length > 0 && `${content.length} characters`}
+                        </span>
+                        <button
+                            type="submit"
+                            disabled={(!content.trim() && !selectedGif) || isPosting}
+                            className={`
+                                rounded-full px-6 py-2 font-medium text-white
+                                transition-all duration-200 text-sm
+                                ${(!content.trim() && !selectedGif) || isPosting
+                                    ? 'bg-blue-300 cursor-not-allowed opacity-70'
+                                    : 'bg-blue-500 hover:bg-blue-600 shadow-sm hover:shadow-md'
+                                }
+                            `}
+                        >
+                            {isPosting ? 'Posting...' : 'Post'}
                         </button>
                     </div>
                 </div>
-            </div>
-            <hr className="opacity-60" />
+            </form>
         </div>
     );
-}
+};
 
 export default NewPost;

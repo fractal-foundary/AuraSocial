@@ -10,6 +10,7 @@ import WalletConnectPage from './pages/Authentication/ThirdWebSDK/WalletConnectP
 import ProfilePage from './pages/profile/ProfilePage';
 import Marketplace from './pages/marketplace';
 import Sidebar from './components/SideBar/sidebar';
+import Notifications from './pages/Notifications';
 
 // Layout Components
 const RootLayout = () => (
@@ -71,6 +72,10 @@ const routes = [
                     {
                         path: 'cryptowallet',
                         element: <WalletConnectPage />,
+                    },
+                    {
+                        path: 'notifications',
+                        element: <Notifications />,
                     },
                 ],
             },

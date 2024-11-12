@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api';
 
-const ProfilePage = () => {
-    // Set up state to track form inputs
+const ProfilePage = ({ onClose }) => {
     const [bio, setBio] = useState('');
     const [location, setLocation] = useState('');
     const [birthDate, setBirthDate] = useState('');
@@ -10,11 +9,9 @@ const ProfilePage = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create form data
         const formData = {
             bio: bio,
             location: location,
@@ -23,11 +20,12 @@ const ProfilePage = () => {
         };
 
         try {
-            // POST request to your Django API
             const response = await api.put('Users/api/profile/update/', formData);
-
             setSuccessMessage('Profile updated successfully!');
-            setErrorMessage(''); // Clear previous errors
+            setErrorMessage('');
+            setTimeout(() => {
+                onClose();
+            }, 2000);
         } catch (error) {
             setErrorMessage('Failed to update profile. Please try again.');
             setSuccessMessage('');
@@ -35,70 +33,117 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-lg w-full space-y-4">
-                <h2 className="text-white text-3xl font-semibold text-center mb-4">Edit Profile</h2>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="w-full max-w-2xl mx-4">
+                <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                    {/* Header */}
+                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h2 className="text-xl font-semibold text-gray-800">Edit Profile</h2>
+                        <button
+                            onClick={onClose}
+                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                            aria-label="Close dialog"
+                        >
+                            <svg className="w-5 h-5 text-gray-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
 
-                {/* Bio */}
-                <div>
-                    <label className="block text-gray-300 text-sm mb-1" htmlFor="bio">Bio</label>
-                    <textarea
-                        id="bio"
-                        className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                        placeholder="Tell us about yourself"
-                        rows="4"
-                    />
+                    {/* Body */}
+                    <form onSubmit={handleSubmit}>
+                        <div className="p-6 space-y-6">
+                            {/* Bio */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700" htmlFor="bio">
+                                    Bio
+                                </label>
+                                <textarea
+                                    id="bio"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                    value={bio}
+                                    onChange={(e) => setBio(e.target.value)}
+                                    placeholder="Tell us about yourself"
+                                    rows="4"
+                                />
+                            </div>
+
+                            {/* Location */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700" htmlFor="location">
+                                    Location
+                                </label>
+                                <input
+                                    id="location"
+                                    type="text"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    placeholder="Where do you live?"
+                                />
+                            </div>
+
+                            {/* Date of Birth */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700" htmlFor="birthDate">
+                                    Date of Birth
+                                </label>
+                                <input
+                                    id="birthDate"
+                                    type="date"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                    value={birthDate}
+                                    onChange={(e) => setBirthDate(e.target.value)}
+                                />
+                            </div>
+
+                            {/* Website */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700" htmlFor="website">
+                                    Website
+                                </label>
+                                <input
+                                    id="website"
+                                    type="url"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                    value={website}
+                                    onChange={(e) => setWebsite(e.target.value)}
+                                    placeholder="Your personal website"
+                                />
+                            </div>
+
+                            {/* Messages */}
+                            {successMessage && (
+                                <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-md text-sm">
+                                    {successMessage}
+                                </div>
+                            )}
+                            {errorMessage && (
+                                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+                                    {errorMessage}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Footer */}
+                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            >
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                {/* Location */}
-                <div>
-                    <label className="block text-gray-300 text-sm mb-1" htmlFor="location">Location</label>
-                    <input
-                        id="location"
-                        type="text"
-                        className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        placeholder="Where do you live?"
-                    />
-                </div>
-
-                {/* Date of Birth */}
-                <div>
-                    <label className="block text-gray-300 text-sm mb-1" htmlFor="birthDate">Date of Birth</label>
-                    <input
-                        id="birthDate"
-                        type="date"
-                        className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-                        value={birthDate}
-                        onChange={(e) => setBirthDate(e.target.value)}
-                    />
-                </div>
-
-                {/* Website */}
-                <div>
-                    <label className="block text-gray-300 text-sm mb-1" htmlFor="website">Website</label>
-                    <input
-                        id="website"
-                        type="url"
-                        className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-                        value={website}
-                        onChange={(e) => setWebsite(e.target.value)}
-                        placeholder="Your personal website"
-                    />
-                </div>
-
-                {/* Submit Button */}
-                <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg focus:outline-none focus:ring">
-                    Save Profile
-                </button>
-
-                {/* Success and Error Messages */}
-                {successMessage && <p className="text-green-400 text-center mt-2">{successMessage}</p>}
-                {errorMessage && <p className="text-red-400 text-center mt-2">{errorMessage}</p>}
-            </form>
+            </div>
         </div>
     );
 };
