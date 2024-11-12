@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
@@ -9,10 +9,11 @@ export default AuthContext;
 export const AuthProvider = ({ children }) => {
 
     let [user, setUser] = useState(null)
-    let [authTokens, setAuthTokens] = useState(null)
+    let [username, setUsername] = useState(null)
+    let [authtokens, setauthtokens] = useState(null)
 
     // I want this fetchJwtTokens method to just fetch jwt tokens, save them and set user.
-    let fetchJwtTokens = async (e) => {
+    let fetchJwtTokens = async (e, username) => {
         e.preventDefault()
 
         const response = await axios.get('/api/user/token/');
@@ -20,10 +21,10 @@ export const AuthProvider = ({ children }) => {
         let data = await response.data;
 
         if (data) {
-            localStorage.setItem('authTokens', JSON.stringify(data));
-            setAuthTokens(data);
+            localStorage.setItem('authTokens', data);
             setUser(jwtDecode(data.access));
-            console.log("authcontext", user, data)
+            setauthtokens(data)
+            setUsername(username);
             return data;
         } else {
             throw new Error('Something went wrong while "fetching the jwt tokens" and registering in the user!')
@@ -34,16 +35,52 @@ export const AuthProvider = ({ children }) => {
     let logoutUser = (e) => {
         e.preventDefault()
         localStorage.removeItem('authTokens')
-        setAuthTokens(null)
+        setauthtokens(null)
         setUser(null)
     }
 
+    const updateToken = async () => {
+        const response = await fetch('/api/user/token/refresh/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ refresh: authtokens?.refresh })
+        })
+
+        const data = await response.json()
+        if (response.status === 200) {
+            setauthtokens(data)
+            setUser(jwtDecode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+        } else {
+            logoutUser()
+        }
+
+        if (loading) {
+            setLoading(false)
+        }
+    }
+
+
     let contextData = {
         user: user,
-        authTokens: authTokens,
+        username: username,
+        authtokens: authtokens,
         fetchJwtTokens: fetchJwtTokens,
         logoutUser: logoutUser,
     }
+
+    useEffect(() => {
+        const REFRESH_INTERVAL = 1000 * 60 * 4 // 4 minutes
+        let interval = setInterval(() => {
+            if (authtokens) {
+                updateToken()
+            }
+        }, REFRESH_INTERVAL)
+        return () => clearInterval(interval)
+
+    }, [authtokens])
 
     return (
         <AuthContext.Provider value={contextData}>

@@ -1,6 +1,5 @@
 from rest_framework import views, viewsets
 from rest_framework.decorators import api_view
-from rest_framework import permissions, authentication
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import (
@@ -34,7 +33,7 @@ class UserAPIView(views.APIView):
             return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
 
         # update the new user.
-        print(request.user)
+        print("PUT register the user: ", request.user)
         user = serializer.update(request.user, serializer.validated_data)
         # get the new user details.
         new_user_details = UserSerializer(user)
@@ -43,11 +42,13 @@ class UserAPIView(views.APIView):
         return Response(new_user_details.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request):
-        serializer = UserCUDSerializer(request.user)
-
-        instance = serializer.delete()
-        # i dont know right now,if "instance" can be sent with a respose.
-        return Response(instance, status=status.HTTP_200_OK)
+        current_user = request.user
+        # delete the user instance of currently logged in user
+        current_user.delete()
+        return Response(
+            {"message": "delete the instance of currently logged in."},
+            status=status.HTTP_200_OK,
+        )
 
 
 # i used get request here, cause i am sendind jwtTokens, not recieving them, because post request require authentication first. Unlike get request.
@@ -66,12 +67,34 @@ def CustomTokenObtainPairView(request):
     )
 
 
+# this is the profileview for profile page for every user, not search engine related.
 class ProfileAPIView(views.APIView):
+    def post(self, request):
+        data = request.data
+        serializer = ProfileCUDSerializer(data=data, context={"request": request})
+
+        # check data validity.
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # update the profile.
+        profile = serializer.create(serializer.validated_data)
+        # get the new profile details.
+        new_profile_details = ProfileSerializer(profile)
+
+        # return the new user details to flag that new user has been created and saved in the database.
+        return Response(new_profile_details.data, status=status.HTTP_200_OK)
 
     def get(self, request):
-        profile = Profile.objects.get(user=request.user)
-        profile_details = ProfileSerializer(profile)
-        return Response(profile_details.data, status=status.HTTP_200_OK)
+        try:
+            profile = Profile.objects.get(user=request.user)
+            profile_details = ProfileSerializer(profile)
+            return Response(profile_details.data, status=status.HTTP_200_OK)
+        except Profile.DoesNotExist:
+            return Response(
+                {"message": "No profile found for the current user."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
     # update the existing profile.
     def put(self, request):
@@ -87,17 +110,16 @@ class ProfileAPIView(views.APIView):
         # update the profile.
         profile = serializer.update(profile, serializer.validated_data)
         # get the new profile details.
-        new_profile_details = UserSerializer(profile)
+        new_profile_details = ProfileSerializer(profile)
 
         # return the new user details to flag that new user has been created and saved in the database.
         return Response(new_profile_details.data, status=status.HTTP_200_OK)
 
     def delete(self, request):
         profile = Profile.objects.get(user=request.user)
-        serializer = ProfileCUDSerializer(profile)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
 
-        instance = serializer.delete()
-        # i dont know right now,if "instance" can be sent with a respose.
-        return Response(instance, status=status.HTTP_200_OK)
+        profile.delete()
+        return Response(
+            {"message": "profile of currently logged in user deleted."},
+            status=status.HTTP_200_OK,
+        )

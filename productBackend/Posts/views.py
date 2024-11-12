@@ -26,4 +26,5 @@ class TimelineView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        # https://docs.djangoproject.com/en/5.1/topics/db/queries/#retrieving-specific-objects-with-filters
         followed_user = Follow.objects.filter(user=user)

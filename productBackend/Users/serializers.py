@@ -8,6 +8,8 @@ User = get_user_model()
 
 # ---------------------- User CRUD -----------------------
 
+# user crud is working.
+
 
 # User READ
 class UserSerializer(serializers.ModelSerializer):
@@ -55,12 +57,7 @@ class UserCUDSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-    def delete(self, instance):
-        """
-        Issues an SQL DELETE for the object. This only deletes the object in the database; the Python instance will still exist and will still have data in its fields, except for the primary key set to None. This method returns the number of objects deleted and a dictionary with the number of deletions per object type.
-        """
-        instance.delete()
-        return instance
+    # you can create a delete() function if you want to delete in a complex way.
 
 
 # ---------------------- Profile CRUD -----------------------
@@ -89,6 +86,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         ]
 
 
+# Profile crud works
+
+
 # profile -----> creation, updation, deletion.
 class ProfileCUDSerializer(serializers.ModelSerializer):
     followers_count = serializers.ReadOnlyField()
@@ -110,8 +110,9 @@ class ProfileCUDSerializer(serializers.ModelSerializer):
             "followers_count",
             "following_count",
         ]
+        read_only_fields = ["user"]
 
-    # TODO: write more validation logic for more attributes in profile, spec is unknown to me rigt now, 2nd nov.
+    # TODO: write more validation logic for more attributes in profile, spec is unknown to me rigt-now.
     def validate(self, data):
         wallet_address = data.get("wallet_address")
         social_score = data.get("social_score")
@@ -127,7 +128,10 @@ class ProfileCUDSerializer(serializers.ModelSerializer):
             return data
 
     def create(self, validated_data):
-        profile = Profile.objects.create(**validated_data)
+        user = validated_data.pop("user", None)
+        profile = Profile.objects.create(
+            user=self.context["request"].user, **validated_data
+        )
         return profile
 
     def update(self, instance, validated_data):
@@ -138,12 +142,10 @@ class ProfileCUDSerializer(serializers.ModelSerializer):
         instance.website = validated_data.get("website", instance.website)
         instance.birth_date = validated_data.get("birth_date", instance.birth_date)
         # social_score needs its own serializer to be updated, as it is going to updated very often.
-        instance.wallet_address = validated_data.get("wallet_address", instance.email)
+        instance.wallet_address = validated_data.get(
+            "wallet_address", instance.wallet_address
+        )
         instance.save()
-        return instance
-
-    def delete(self, instance):
-        instance.delete()
         return instance
 
 

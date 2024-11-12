@@ -82,14 +82,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
-# Create your models here.
 class Profile(models.Model):
-    # "User": consist of username
-    # settings.AUTH_USER_MODEL: contains the custom user model name. It is better approach than fetching the customuser model from it is created as specified in django docs.
+    # settings.AUTH_USER_MODEL: contains the custom user model name you explicitely specified.
+    # "user": consist of username so, profile doesn't need to have that.
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # "Name": consist of first name and last name provided by user after creating the account.
     name = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(default="./Users/default.png", upload_to="profile_pics")
+    image = models.ImageField(upload_to="profile_pics", blank=True, null=True)
     bio = models.TextField(max_length=200, blank=True)
     location = models.CharField(max_length=50, blank=True)
     website = models.URLField(blank=True)
@@ -118,20 +117,7 @@ class Profile(models.Model):
         # so, this function "following" will return the number of users who this user follows.
         return Follow.objects.filter(user=self.user).count()
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
-        super().save()
-        img = Image.open(self.image.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
 
-
-# I don't think so that we need to create a followview cause we dont want to transfer this data through api.
-# The follow data as needed is already being transfered with profile view
-# Thats why no need to create a serializer and views for this model.
 class Follow(models.Model):
     """
     user ========> followed_user (instance/row of model/database)

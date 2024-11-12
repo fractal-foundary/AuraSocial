@@ -3,12 +3,11 @@
 ## backend
 * Twitter Auth
     - where to refresh token from twitter. 
-* Users
+* Users 
     - check whole jwt authentication process in registeration. (fool proof)
         - no need to store username in jwt token.
     - User CRUD --- serializer + view
-        - when user deleted his (profile + access_token) is also deleted with it.
-        - without twitter authentication no new user can be created.
+        - when user deleted his (profile + access_token) is also deleted with it. (works10nov2024)
     - Profile CRUD ---- serializer + view
         - add (Social Score) + (wallet address ---- why? cause i want the user identity on the blockchain world) in profile model
 * Posts
@@ -28,10 +27,10 @@
 
 ## frontend
 * complete your registeration page
-    - store the **username** there on the authcontext.
-* user Preferences page
-* follow atleast one user page.
-* a tab on home page which redirect you to complete your profile
+    - store the **username** there on the authcontext. ✅
+* user Preferences page  -
+* follow atleast one user page. -
+* a tab on home page which redirect you to complete your profile  -
 * homePage
     - change sidebar
     - timeline dynamic

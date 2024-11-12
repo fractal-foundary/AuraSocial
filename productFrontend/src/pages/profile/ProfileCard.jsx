@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
+import React from 'react'
 import { FaUserCircle } from "react-icons/fa";
-
 function ProfileCard() {
-
     return (
-        <div className="w-full  overflow-hidden shadow-md mt-20">
+        <div className="w-full shadow-md mt-20">
             <div className="h-32 bg-gray-200">banner</div>
             <div className="px-4 py-4">
                 <div className="flex items-center pl-2">
@@ -25,13 +22,11 @@ function ProfileCard() {
                 </div>
                 <div className='pl-2'>
                     <div className="mt-2 flex items-center gap-x-2 ">
-
-                        <h2 className="text-xl font-bold">Gyan Dev </h2>
+                        <h2 className="text-xl font-bold">Example Account </h2>
                         <span className='text-gray-100 bg-gray-500 font-light text-xs rounded p-1'>Social</span>
 
                     </div>
-                    <p className="text-gray-600">@gooonie</p>
-                    <p className="text-gray-600">1</p>
+                    <p className="text-gray-600">@Example35100359</p>
                     <p className="mt-2 text-gray-700">This is just a sample profile :)</p>
                     <div className="mt-4 text-gray-600 text-sm">
                         <span className="mr-4">Joined October 2020</span>
