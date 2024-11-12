@@ -1,5 +1,5 @@
 import './sidebar.css';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import SidebarLink from './SidebarLink';
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -20,10 +20,36 @@ import { SiCoinmarketcap } from "react-icons/si";
 import { IoIosMore } from 'react-icons/io';
 import { IoLogOutOutline } from 'react-icons/io5';
 
+
+
 const SidebarDownProfile = () => {
     const { logoutUser } = useContext(AuthContext);
-    const [showLogout, setShowLogout] = useState(false);
+    const [moreClick, setMoreClick] = useState(false);
     const navigate = useNavigate();
+    const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Check if click is outside both the dropdown and the button
+            if (dropdownRef.current &&
+                buttonRef.current &&
+                !dropdownRef.current.contains(event.target) &&
+                !buttonRef.current.contains(event.target)) {
+                setMoreClick(false);
+            }
+        };
+
+        // Add event listener when the dropdown is open
+        if (moreClick) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        // Cleanup
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [moreClick]);
 
     const handleLogout = (e) => {
         logoutUser(e);
@@ -31,37 +57,37 @@ const SidebarDownProfile = () => {
     };
 
     return (
-        <div className="w-[70%] justify-between rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer pb-2 relative group hover:bg-gray-800">
-            <div className="flex items-center justify-between w-full p-2">
-                <div className="item flex gap-1">
-                    <img
-                        src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg"
-                        alt=""
-                        className="w-10 h-10 rounded-full"
-                    />
-                    <div className="mx-0">
-                        <div className="font-semibold">Gyan Dev</div>
-                        <div className="text-sm text-gray-300">@goonie</div>
-                    </div>
+        <div className="w-[70%] justify-between rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer pb-2">
+            <div className="item my-2 p-2 flex gap-1">
+                <img
+                    src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg"
+                    alt=""
+                    className="w-10 h-10 rounded-full"
+                />
+                <div className="mx-0">
+                    <div className="font-semibold">Gyan Dev</div>
+                    <div className="text-sm text-gray-300">@goonie</div>
                 </div>
                 <div
-                    className="relative"
-                    onMouseEnter={() => setShowLogout(true)}
-                    onMouseLeave={() => setShowLogout(false)}
+                    ref={buttonRef}
+                    className="material-symbols-outlined text-2xl ml-4 py-2 relative"
+                    onClick={() => setMoreClick(!moreClick)}
                 >
-                    <div className='material-symbols-outlined text-2xl py-2'>
-                        <IoIosMore />
-                    </div>
-
-                    {showLogout && (
-                        <div className="absolute bottom-full left-0 mb-2 w-48 bg-black border border-gray-700 rounded-2xl shadow-lg overflow-hidden">
-                            <button
-                                onClick={handleLogout}
-                                className="w-full px-4 py-3 flex items-center gap-3 text-red-500 hover:bg-gray-900 transition-colors"
-                            >
-                                <IoLogOutOutline className="text-xl" />
-                                <span className="font-medium">Log out @goonie</span>
-                            </button>
+                    <IoIosMore />
+                    {moreClick && (
+                        <div
+                            ref={dropdownRef}
+                            className="absolute bottom-full mb-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                        >
+                            <div className="py-1">
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                                >
+                                    <IoLogOutOutline className="w-5 h-5 mr-2 text-gray-500" />
+                                    Logout
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -69,6 +95,8 @@ const SidebarDownProfile = () => {
         </div>
     );
 };
+
+
 
 function Sidebar() {
     const [moreClick, setMoreClick] = useState(false);
