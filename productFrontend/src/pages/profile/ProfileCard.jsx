@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaUserCircle } from "react-icons/fa";
 import ProfileEdit from './ProfileEdit.jsx'
+import AuthContext from '../../context/AuthContext';
 
 
 function ProfileCard() {
     const [isEditOpen, setIsEditOpen] = useState(false);
+    let { username } = useContext(AuthContext)
+    username = "gooniemashroomi"
+
+    const handlenftminting = () => {
+        // Perform any actions before navigation
+        window.location.href = "https://mintnftthirdweb-fractal-foundary-fractal-foundarys-projects.vercel.app/";
+    };
 
     return (
         <>
@@ -24,17 +32,17 @@ function ProfileCard() {
                             >
                                 Edit profile
                             </button>
-                            <button className="px-4 py-2 bg-white text-blue-500 rounded-full border border-blue-300 text-sm font-semibold">
+                            <button className="px-4 py-2 bg-white text-blue-500 rounded-full border border-blue-300 text-sm font-semibold" onClick={handlenftminting}>
                                 Mint tokens
                             </button>
                         </div>
                     </div>
                     <div className='pl-2'>
                         <div className="mt-2 flex items-center gap-x-2">
-                            <h2 className="text-xl font-bold">Example Account</h2>
+                            <h2 className="text-xl font-bold">Gyan Dev</h2>
                             <span className='text-gray-100 bg-gray-500 font-light text-xs rounded p-1'>Social</span>
                         </div>
-                        <p className="text-gray-600">@Example35100359</p>
+                        <p className="text-gray-600">@{username}</p>
                         <p className="mt-2 text-gray-700">This is just a sample profile :)</p>
                         <div className="mt-4 text-gray-600 text-sm">
                             <span className="mr-4">Joined October 2020</span>

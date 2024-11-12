@@ -30,7 +30,7 @@ class UserAPIView(views.APIView):
 
         # check data validity.
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # update the new user.
         print("PUT register the user: ", request.user)
