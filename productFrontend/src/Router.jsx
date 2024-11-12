@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
-// import { user } from './context/AuthContext';
-const user = true;
+import React, { useContext } from 'react';
+import AuthContext from './context/AuthContext';
 
 // Page imports
 import LandingPage from './pages/LandingPage';
@@ -27,11 +27,14 @@ const AuthenticatedLayout = () => (
 );
 
 const AuthLayout = () => {
-    return user ? <AuthenticatedLayout /> : <Navigate to="/" replace />;
+    // TODO: temporarily using auth jwt tokens to be logged in, there must be a better way.
+    let tokens = localStorage.getItem("authTokens")
+    return tokens ? <AuthenticatedLayout /> : <Navigate to="/" replace />;
 };
 
 const PublicOnlyLayout = () => {
-    return !user ? <Outlet /> : <Navigate to="/home" replace />;
+    let tokens = localStorage.getItem("authTokens")
+    return !tokens ? <Outlet /> : <Navigate to="/home" replace />;
 };
 
 

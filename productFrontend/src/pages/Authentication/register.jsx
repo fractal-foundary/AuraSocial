@@ -1,12 +1,12 @@
 // authcallback verifies the user's credentials...
 import React, { useContext, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 
+// TODO: try to use throw error, below code better.
 const Register = () => {
-    const AuthContext = useAuthContext()
-    let { fetchJwtTokens, authTokens } = useContext(AuthContext)
+    let { authtokens, user, fetchJwtTokens } = useContext(AuthContext)
 
     // States to hold form data
     const [formData, setFormData] = useState({
@@ -20,14 +20,6 @@ const Register = () => {
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
 
-    const location = useLocation();
-    const params = new URLSearchParams(location.search)
-    const status = params.get("status")
-
-    if (status !== "success") {
-        setError('Failed to register. Please try again later.');
-    }
-
     // Handle input change
     const handleChange = (e) => {
         setFormData({
@@ -36,37 +28,45 @@ const Register = () => {
         });
     };
 
-    // Handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        // basically the function to fetch the jwttokens is called in AuthContext.
-        if (!authTokens) {
-            // fetchJwtTokens is only going to called once, as if tokens are already fetched no need to call again.
-            fetchJwtTokens(e);
-        }
-
+    // User registration function
+    const registerUser = async (formData, accessToken) => {
         try {
-            // so, now we have jwt tokens so, we can add them to the header while sending the data.
             const response = await axios.put('/api/user/register/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    // jwtTokens.access: is the access token we fetched.
-                    'Authorization': `Bearer ${authTokens.access}`
+                    'Authorization': `Bearer ${accessToken}`
                 },
                 withCredentials: true
             });
+            console.log("registeruser", response.data)
+            return response.data;
+        } catch (error) {
+            setError('Failed to register user');
+        }
+    };
 
-            if (response.status === 200) {
-                setSuccess('Registration successful!');
-                setError('');
-                navigate('/home');
-            } else {
-                const data = await response.json();
-                setError(data.detail || 'Something went wrong.');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Get tokens if not already available
+            let tokens = authtokens;
+            console.log("without", tokens)
+            if (!tokens) {
+                // Since authTokens is a state variable, updates to it are asynchronous and may not reflect immediately within the same function. 
+                tokens = await fetchJwtTokens(e, formData.username);
+                console.log("with", tokens)
             }
-        } catch (err) {
-            setError('Failed to register. Please try again later.');
+
+            // Register user with the token  
+            console.log("after", tokens, user)
+            let data = await registerUser(formData, tokens.access);
+
+            setSuccess('Registration successful!');
+            navigate('/home');
+
+        } catch (error) {
+            setError(error.message || 'Failed to complete registration. Please try again later.');
         }
     };
 

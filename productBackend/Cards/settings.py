@@ -25,6 +25,7 @@ ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "localhost", "backend"]
 # Application definition
 
 INSTALLED_APPS = [
+    "Posts.apps.PostsConfig",
     "twitter_auth_manager.apps.TwitterAuthManagerConfig",
     "Users.apps.UsersConfig",
     "django.contrib.sites",
@@ -39,12 +40,6 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
 ]
-
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-}
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
@@ -63,8 +58,8 @@ SIMPLE_JWT = {
     "LEEWAY": 0,
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "username",
-    "USER_ID_CLAIM": "user_username",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     "TOKEN_TYPE_CLAIM": "token_type",
@@ -102,12 +97,20 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "twitter_auth_manager.middleware.TwitterTokenRefreshMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "twitter_auth_manager.middleware.TwitterTokenRefreshMiddleware",
     # FetchFromCacheMiddleware: needs to be last in the list.
     "django.middleware.cache.FetchFromCacheMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+}
 
 # required cache settings.
 CACHE_MIDDLEWARE_ALIAS = "default"
@@ -193,7 +196,11 @@ USE_I18N = True
 USE_TZ = True
 
 
+# i dont really need static as we are using react frontend so, any static file used is there only.
 STATIC_URL = "static/"
+
+# however we are using media as we are saving user generated content.
+MEDIA_ROOT = "media/"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

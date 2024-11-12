@@ -7,7 +7,7 @@ import PostCard from './PostCard'
 function ProfilePage() {
 
     return (
-        <div className='flex '>
+        <div className=' flex '>
             <Sidebar></Sidebar>
             <div className='w-full ml-[20%]'>
                 <ProfileHeader></ProfileHeader>
@@ -15,8 +15,9 @@ function ProfilePage() {
                 <PostCard></PostCard>
                 <PostCard></PostCard>
                 <PostCard></PostCard>
-                <PostCard></PostCard>
+
             </div>
+
         </div>
     )
 }
