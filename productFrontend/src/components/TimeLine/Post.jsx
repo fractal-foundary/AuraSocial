@@ -13,7 +13,7 @@ import { PiBookmarkSimple } from "react-icons/pi";
 import { MdIosShare } from "react-icons/md";
 // for tipping.
 import { SiBuymeacoffee } from "react-icons/si";
-
+import { FaRegUserCircle } from "react-icons/fa";
 // StyleIcon: function used to style the icons used in post.As they all have exactly same styling.
 function StyleIcon({ Icon, Colour }) {
     return (
@@ -23,31 +23,28 @@ function StyleIcon({ Icon, Colour }) {
     );
 }
 
-function Post() {
+function Post({ content, gifUrl, timestamp }) {
     return (
-        <div className="posts">
+        <div className="posts border-2 border-blue-100 rounded-lg">
             <div className="post">
                 <div className="flex">
                     {/* User's image from the database...*/}
-                    <div className="img m-4 ">
-                        <img className="w-16 rounded-full my-1"
-                            src="https://pbs.twimg.com/profile_images/1720501293729423360/SQD9FdfU_x96.jpg" alt="" />
+                    <div className="w-12 h-12 flex-shrink-0 text-gray-400 m-4">
+                        <FaRegUserCircle size="100%" />
                     </div>
                     <div className="content my-4 flex gap-2">
                         <div className="">
 
                             {/* contains the user info. who created the post... */}
-                            <span className="font-semibold hover:underline cursor-pointer">Donald J. Trump </span>
-                            <span className="opacity-70">@DonaldTNews</span>
+                            <span className="font-semibold hover:underline cursor-pointer">Gyan Dev </span>
+                            <span className="opacity-70">gyandev</span>
                             <span className="opacity-70">·</span>
-                            <span className="opacity-70">1h</span>
+                            <span className="opacity-70 text-xs"> {new Date(timestamp).toLocaleString()}</span>
 
                             {/* below is the post posted by user on timeline. */}
                             <div className="caption text-lg">
                                 <div className="flex flex-col gap-3">
-                                    <p>Do you agree Donald Trump was a more intelligent and stronger Commander in
-                                        Chief compared to Joe Biden and Barack Obama?</p>
-                                    <p>YES or NO?</p>
+                                    <p>{content}</p>
                                 </div>
                             </div>
 
@@ -58,23 +55,25 @@ function Post() {
                             </div>
 
                             {/* Icons attached with every post on timeline. */}
-                            <div className="icons flex mx-3 justify-around">
-                                <div className="1 flex items-center gap-1 text-gray-500 hover:text-[#84cc16] ">
-                                    <StyleIcon Icon={FaRegComment} Colour="#84cc16" />
-                                    <span className='text-1'>3K</span>
-                                </div>
-                                <div className="2 flex items-center gap-1 text-gray-500 hover:text-[#15F5BA]">
-                                    <StyleIcon Icon={LuRepeat2} Colour="#15F5BA" />
-                                    <span className='text-1'>74K</span>
-                                </div>
+
+                            <div className="icons flex items-start gap-x-2">
                                 <div className="3 flex items-center gap-1 text-gray-500 hover:text-[#f91880]">
                                     <StyleIcon Icon={IoHeartOutline} Colour="#FF204E" />
-                                    <span>77K</span>
+                                    <span>0</span>
                                 </div>
-                                <div className="4 flex items-center gap-1 text-gray-500 hover:text-[#FFEA20]">
+                                <div className="1 flex items-center gap-1 text-gray-500 hover:text-[#84cc16] ">
+                                    <StyleIcon Icon={FaRegComment} Colour="#84cc16" />
+                                    <span className='text-1'>0</span>
+                                </div>
+                                {/* <div className="2 flex items-center gap-1 text-gray-500 hover:text-[#15F5BA]">
+                                    <StyleIcon Icon={LuRepeat2} Colour="#15F5BA" />
+                                    <span className='text-1'>0</span>
+                                </div> */}
+
+                                {/* <div className="4 flex items-center gap-1 text-gray-500 hover:text-[#FFEA20]">
                                     <StyleIcon Icon={BiBarChart} Colour="#FFEA20" />
                                     <span>652K</span>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
