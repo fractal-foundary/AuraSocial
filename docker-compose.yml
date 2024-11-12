@@ -18,6 +18,22 @@ services:
       timeout: 20s
       retries: 10
       
+  # converting it to vite, still need some time.
+  # nftmarketplace:
+  #     build:
+  #       context: ./thirdwebNFTmarketplace
+  #       dockerfile: Dockerfile
+  #     container_name: secondary_nftmarketplace
+  #     command: sh -c "npm install && npm run dev"
+  #     restart: always
+  #     volumes: 
+  #       - ./thirdwebNFTmarketplace:/app/nftmarketplace/
+  #     ports:
+  #       - "3000:3000"
+  #     depends_on:
+  #       - frontend
+
+        
   frontend:
       build:
         context: ./productFrontend
@@ -49,6 +65,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
 
   proxy:
     image: traefik:v3.0

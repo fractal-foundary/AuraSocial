@@ -1,25 +1,36 @@
-# Things to complete
+# Things to complete: Don't hesitate
 
 ## backend
 * Twitter Auth
     - where to refresh token from twitter. 
-* Users
+* Users 
     - check whole jwt authentication process in registeration. (fool proof)
         - no need to store username in jwt token.
     - User CRUD --- serializer + view
+        - when user deleted his (profile + access_token) is also deleted with it. (works10nov2024)
     - Profile CRUD ---- serializer + view
         - add (Social Score) + (wallet address ---- why? cause i want the user identity on the blockchain world) in profile model
-    - calculate the initial social score
 * Posts
     - Post CRUD ---- serializer + view
+* RePosts
+    - repost CRUD ----- serializer + view
+* Bookmark
+    - bookmark CRUD ----- serializer + view
+* Follow
+    - follow -----> create
+    - unfollow -----> delete
+    - list follows and following accounts. (view)
+* coming soon...
+    - calculate the initial social score using "Celery Beat" or "cron jobs" not using views or serializers.
+    - search engine
 
 
 ## frontend
 * complete your registeration page
-    - store the **username** there on the authcontext.
-* user Preferences page
-* follow atleast one user page.
-* a tab on home page which redirect you to complete your profile
+    - store the **username** there on the authcontext. ✅
+* user Preferences page  -
+* follow atleast one user page. -
+* a tab on home page which redirect you to complete your profile  -
 * homePage
     - change sidebar
     - timeline dynamic
@@ -28,6 +39,7 @@
 * profilePage
     - add social score
     - profile form
+        - connect wallet button
     - all posts till date user made section
     - media user uploaded section
     - nfts you hold section
@@ -43,5 +55,8 @@
 * More
     - Settings
         - Account details, and delete the account
-* In the very last of sidebar.
-    - The pic, should be clicked to give you logout button.
+* In the very last of sidebar
+    - The pic, should be clicked to give you logout button
+* miscellaneous
+    * follow button on (profile + top socialScore)
+    * list of followers and following account on profile.

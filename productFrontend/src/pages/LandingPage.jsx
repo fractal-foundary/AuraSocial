@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import bg from '/bgAura.jpg';
+import AuthContext from '../context/AuthContext';
 
 
 const LandingPage = () => {
+    // just getting to know whats inside the authcontext.
+    let { user, authTokens } = useContext(AuthContext)
+    console.log("user: ", user, " tokens: ", authTokens)
 
     const [isLoading, setIsLoading] = useState(false);
     const handleTwitterSignup = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('/social_accounts/twitter_auth_url');
+            const response = await fetch('/social_accounts/twitter_auth');
+            console.log(response)
             const data = await response.json();
             window.location.href = data.auth_url;
         } catch (error) {

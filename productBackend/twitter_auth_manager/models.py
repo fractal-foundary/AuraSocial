@@ -39,13 +39,11 @@ class Access_token(models.Model):
 
     get_expire_date.short_description = "Expire date"
 
+    @property
     def is_valid(self):
         if self.get_expire_date() > timezone.now():
             return True
         return False
-
-    is_valid.short_description = "Valid"
-    is_valid.boolean = True
 
     class Meta:
         verbose_name = "Access Token"

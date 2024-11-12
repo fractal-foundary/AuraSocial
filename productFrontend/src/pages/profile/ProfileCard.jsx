@@ -2,7 +2,7 @@ import React from 'react'
 import { FaUserCircle } from "react-icons/fa";
 function ProfileCard() {
     return (
-        <div className="w-full  overflow-hidden shadow-md mt-20">
+        <div className="w-full shadow-md mt-20">
             <div className="h-32 bg-gray-200">banner</div>
             <div className="px-4 py-4">
                 <div className="flex items-center pl-2">

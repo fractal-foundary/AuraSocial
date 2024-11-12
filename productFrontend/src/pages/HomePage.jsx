@@ -1,12 +1,11 @@
 import Timeline from '../components/TimeLine/Timeline';
 import Trending from '../components/Trending/Trending';
-// import Sidebar from '../components/SideBar/sidebar';
-// import { Outlet } from 'react-router-dom';
-import React, { useContext } from 'react'
+import React from 'react';
 
 const HomePage = () => {
+
     return (
-        <div className='ml-[25%] flex'>
+        <div className='ml-[23%] flex'>
             <Timeline />
             <Trending />
         </div>
