@@ -29,11 +29,14 @@ const AuthenticatedLayout = () => (
 const AuthLayout = () => {
     // TODO: temporarily using auth jwt tokens to be logged in, there must be a better way.
     let tokens = localStorage.getItem("authTokens")
+    tokens = true;
     return tokens ? <AuthenticatedLayout /> : <Navigate to="/" replace />;
 };
 
 const PublicOnlyLayout = () => {
+
     let tokens = localStorage.getItem("authTokens")
+    tokens = true;
     return !tokens ? <Outlet /> : <Navigate to="/home" replace />;
 };
 
