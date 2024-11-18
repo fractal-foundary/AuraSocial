@@ -15,7 +15,9 @@ const LandingPage = () => {
             const response = await fetch('/social_accounts/twitter_auth');
             console.log(response)
             const data = await response.json();
+            console.log(data);
             window.location.href = data.auth_url;
+
         } catch (error) {
             console.error('Error fetching Twitter auth URL:', error);
             setIsLoading(false);
