@@ -1,5 +1,6 @@
 from rest_framework import views, viewsets
 from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import (
@@ -123,3 +124,8 @@ class ProfileAPIView(views.APIView):
             {"message": "profile of currently logged in user deleted."},
             status=status.HTTP_200_OK,
         )
+
+
+@api_view(["GET"])
+def get_user_profile(self, request):
+    username = request.username

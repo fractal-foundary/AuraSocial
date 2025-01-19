@@ -124,7 +124,9 @@ class Follow(models.Model):
     """
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="following",
     )
     followed_user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="followed_user", on_delete=models.CASCADE

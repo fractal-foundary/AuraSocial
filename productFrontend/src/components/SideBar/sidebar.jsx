@@ -109,7 +109,7 @@ function Sidebar() {
                     <SidebarLink text="Home" Icon={RiHomeSmileLine} link="/home" />
                     <SidebarLink text="Explore" Icon={IoIosSearch} link="/explore" />
                     <SidebarLink text="Notifications" Icon={FaRegBell} link="/notifications" />
-                    <SidebarLink text="Messages" Icon={IoChatbubblesOutline} link="/messages" />
+                    {/* <SidebarLink text="Messages" Icon={IoChatbubblesOutline} link="/messages" /> */}
                     <SidebarLink text="Communities" Icon={MdOutlineGroups} link="/communities" />
                     <SidebarLink text="Marketplace" Icon={SiCoinmarketcap} link="https://marketplace.thirdweb-preview.com/" />
                     <SidebarLink text="Profile" Icon={GoPerson} link="/profile" />

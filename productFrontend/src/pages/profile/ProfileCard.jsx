@@ -10,8 +10,8 @@ function ProfileCard() {
     username = "gooniemashroomi"
 
     const handlenftminting = () => {
-        // Perform any actions before navigation
-        window.location.href = "https://mintnftthirdweb-fractal-foundary-fractal-foundarys-projects.vercel.app/";
+        // below link will redirect you to nftminter app, deployed on vercel.
+        window.location.href = "https://nftminter-zeta.vercel.app/";
     };
 
     return (

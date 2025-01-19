@@ -65,3 +65,19 @@ class PostCUSerializer(PostSerializer):
 
     # deletion of instance logic taken care by apiviews, so you dont need to do anything for that here.
     # serializers typically handle data validation and transformation rather than managing deletion logic
+
+
+class PostLikeSerializer(serializers.ModelSerializer):
+    is_liked = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ["id", "likes_count", "is_liked"]
+
+    def get_is_liked(self, obj):
+        user = self.context.get("request").user
+        return user in obj.likes.all()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()

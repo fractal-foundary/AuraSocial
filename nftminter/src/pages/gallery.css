@@ -1,0 +1,60 @@
+.gallery_container {
+  padding-bottom: 100px;
+  padding: 5px 6.5rem;
+  min-height: 90vh;
+  padding-bottom: 100px;
+}
+
+.gallery_container_upper h2 {
+  font-size: 40px;
+}
+
+.gallery_container_upper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.gallery_container_upper hr {
+  border: 0;
+  width: 100%;
+  height: 1px;
+  background: gray;
+}
+
+.gallery_container_middle {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gallery_tab {
+  font-size: 18px;
+  width: 23%;
+  padding: 4px 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 500;
+  background-color: #343654;
+}
+.tab_active {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  /* color: red; */
+}

@@ -3,6 +3,7 @@ from .views import twitter_refresh_token
 
 
 # i think this middleware should work.
+# TODO: the case where refresh_token become invalid what to do.
 class TwitterTokenRefreshMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

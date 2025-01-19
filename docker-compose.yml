@@ -18,7 +18,6 @@ services:
       timeout: 20s
       retries: 10
       
-  # converting it to vite, still need some time.
   # nftmarketplace:
   #     build:
   #       context: ./thirdwebNFTmarketplace
@@ -28,6 +27,20 @@ services:
   #     restart: always
   #     volumes: 
   #       - ./thirdwebNFTmarketplace:/app/nftmarketplace/
+  #     ports:
+  #       - "3000:3000"
+  #     depends_on:
+  #       - frontend
+
+  # nftminter:
+  #     build:
+  #       context: ./nftminter
+  #       dockerfile: Dockerfile
+  #     container_name: aura_nftMinter
+  #     command: sh -c "npm install && npm run dev"
+  #     restart: always
+  #     volumes: 
+  #       - ./nftminter:/app/nftminter/
   #     ports:
   #       - "3000:3000"
   #     depends_on:

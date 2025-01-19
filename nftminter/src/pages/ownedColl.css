@@ -1,0 +1,104 @@
+.ownedColl_container {
+  padding: 5px 6.5rem;
+  min-height: 90vh;
+  padding-bottom: 100px;
+}
+
+.ownedColl_container_upper h2 {
+  font-size: 40px;
+}
+
+.ownedColl_container_upper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ownedColl_container_upper hr {
+  border: 0;
+  width: 100%;
+  height: 1px;
+  background: gray;
+}
+
+.ownedColl_container_middle {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ownedColl_tab {
+  font-size: 24px;
+  width: 23%;
+  padding: 4px 0;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 500;
+  background-color: #343654;
+}
+.tab_active {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  /* color: red; */
+}
+
+.ownedColl_container_lower_card {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ownedColl_container_lower_card_button {
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.5em 1.1em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  font-size: 1.15em;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  /* background-color: #1a1a1a; */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.ownedColl_container_lower_card_button:hover {
+  border-color: #646cff;
+  transition: scale 0.25s;
+  scale: 1.08;
+}
