@@ -10,6 +10,7 @@ import WalletConnectPage from './pages/Authentication/ThirdWebSDK/WalletConnectP
 import ProfilePage from './pages/profile/ProfilePage';
 import Marketplace from './pages/marketplace';
 import Sidebar from './components/SideBar/sidebar';
+import Explore from './pages/ExplorePage';
 import Notifications from './pages/Notifications';
 
 // Layout Components
@@ -72,6 +73,10 @@ const routes = [
                     {
                         path: 'marketplace',
                         element: <Marketplace />,
+                    },
+                    {
+                        path: 'explore',
+                        element: <Explore />,
                     },
                     {
                         path: 'cryptowallet',

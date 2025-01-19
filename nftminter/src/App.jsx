@@ -8,7 +8,6 @@ import NFTPage from "./pages/NFTPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Web3provider } from "./api/contextapi";
-// https://github.com/Aditya-Chaurasia11/NFTance
 
 function App() {
   return (

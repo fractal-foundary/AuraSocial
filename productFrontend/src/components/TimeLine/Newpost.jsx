@@ -1,17 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BsEmojiSmile, BsFiletypeGif } from 'react-icons/bs';
-import { FaRegUserCircle } from "react-icons/fa";
+// import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import Post from './Post.jsx';
-
+import Post from './Post.jsx'
+import pfp from '../../assets/pfp.png';
 const EMOJI_LIST = ['😊', '😂', '🥰', '😍', '😎', '🤩', '😋', '🤗', '😄', '👍', '❤️', '🎉', '✨', '🔥', '💯'];
 
-const Newpost = () => {
+// Post component to display individual posts
+// const Post = ({ content, gifUrl, timestamp }) => (
+//     <div className="w-full rounded-xl border border-gray-100 bg-white shadow-sm mb-4 p-4">
+//         <div className="flex space-x-3">
+//             <div className="w-12 h-12 flex-shrink-0 text-gray-400">
+//                 <FaRegUserCircle size="100%" />
+//             </div>
+//             <div className="flex-1">
+//                 <div className="text-sm text-gray-500 mb-2">
+//                     {new Date(timestamp).toLocaleString()}
+//                 </div>
+//                 <div className="text-lg">{content}</div>
+//                 {gifUrl && (
+//                     <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
+//                         <img src={gifUrl} alt="Post GIF" className="w-full h-48 object-cover" />
+//                     </div>
+//                 )}
+//             </div>
+//         </div>
+//     </div>
+// );
+
+const TimeLines = () => {
     const [posts, setPosts] = useState([]);
     const [content, setContent] = useState('');
     const [isPosting, setIsPosting] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [isFocused, setIsFocused] = useState(false);
     const [showGifPicker, setShowGifPicker] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -19,32 +39,6 @@ const Newpost = () => {
     const textareaRef = useRef(null);
     const gifPickerRef = useRef(null);
     const emojiPickerRef = useRef(null);
-
-    // Fetch posts when component mounts
-    useEffect(() => {
-        fetchPosts();
-    }, []);
-
-    const fetchPosts = async () => {
-        try {
-            const response = await fetch('/api/getTimeLinePosts', {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch posts');
-            }
-
-            const data = await response.json();
-            setPosts(data);
-            setIsLoading(false);
-        } catch (err) {
-            setError('Failed to load posts. Please try again later.');
-            setIsLoading(false);
-        }
-    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -66,42 +60,23 @@ const Newpost = () => {
 
         setIsPosting(true);
 
-        try {
-            // Create new post object
-            const newPost = {
-                content: content.trim(),
-                gifUrl: selectedGif,
-                timestamp: new Date().toISOString()
-            };
+        // Create new post object
+        const newPost = {
+            id: Date.now(),
+            content: content.trim(),
+            gifUrl: selectedGif,
+            timestamp: new Date().toISOString()
+        };
 
-            // Send POST request to create new post
-            const response = await fetch('/api/newPost', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                },
-                body: JSON.stringify(newPost)
-            });
+        // Add new post to the beginning of the posts array
+        setPosts(prevPosts => [newPost, ...prevPosts]);
 
-            if (!response.ok) {
-                throw new Error('Failed to create post');
-            }
-
-            const createdPost = await response.json();
-
-            // Add new post to the beginning of the posts array
-            setPosts(prevPosts => [createdPost, ...prevPosts]);
-
-            // Reset form
-            setContent('');
-            setSelectedGif(null);
-            setIsPosting(false);
-            setIsFocused(false);
-        } catch (err) {
-            setError('Failed to create post. Please try again.');
-            setIsPosting(false);
-        }
+        // Reset form
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setContent('');
+        setSelectedGif(null);
+        setIsPosting(false);
+        setIsFocused(false);
     };
 
     const insertEmoji = (emoji) => {
@@ -115,25 +90,18 @@ const Newpost = () => {
         setShowGifPicker(false);
     };
 
-    if (isLoading) {
-        return <div className="text-center py-4">Loading posts...</div>;
-    }
-
-    if (error) {
-        return <div className="text-center py-4 text-red-500">{error}</div>;
-    }
-
     return (
-        <div className="space-y-4">
+        <div className=" space-y-4">
             <div className={`w-[100%] rounded-xl border bg-white 
         shadow-sm transition-all duration-200 relative
         ${isFocused ? 'border-blue-200 shadow-lg' : 'border-gray-100'}
       `}>
-                <form onSubmit={handleSubmit} className="w-full">
+                <form onSubmit={handleSubmit} className='w-full'>
                     <div className="p-4">
                         <div className="flex space-x-3">
                             <div className="w-12 h-12 flex-shrink-0 text-gray-400">
-                                <FaRegUserCircle size="100%" />
+                                {/* <FaRegUserCircle size="100%" /> */}
+                                <img className="rounded-full w-12 h-12" src={pfp} alt="profile image" />
                             </div>
 
                             <div className="">
@@ -274,7 +242,7 @@ const Newpost = () => {
                 </form>
             </div>
 
-            {/* Posts Timeline */}
+            {/* Posts TimeLiness */}
             <div className="space-y-4">
                 {posts.map(post => (
                     <Post
@@ -289,4 +257,4 @@ const Newpost = () => {
     );
 };
 
-export default Newpost;
+export default TimeLines;

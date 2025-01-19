@@ -3,6 +3,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import SidebarLink from './SidebarLink';
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import pfp from '../../assets/pfp.png';
 
 // not using material-ui icons instead using react-icons
 
@@ -59,14 +60,10 @@ const SidebarDownProfile = () => {
     return (
         <div className="w-[70%] justify-between rounded-full items-center mt-6 hidden xl:flex hover:cursor-pointer pb-2">
             <div className="item my-2 p-2 flex gap-1">
-                <img
-                    src="https://pbs.twimg.com/profile_images/1791002277685428224/MK3cZ88K_bigger.jpg"
-                    alt=""
-                    className="w-10 h-10 rounded-full"
-                />
+                <img className="rounded-full w-12 h-12" src={pfp} alt="profile image" />
                 <div className="mx-0">
                     <div className="font-semibold">Gyan Dev</div>
-                    <div className="text-sm text-gray-300">@goonie</div>
+                    <div className="text-sm text-gray-300">@hoarfrost</div>
                 </div>
                 <div
                     ref={buttonRef}

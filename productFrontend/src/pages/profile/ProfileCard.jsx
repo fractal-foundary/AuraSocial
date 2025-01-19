@@ -2,12 +2,13 @@ import React, { useState, useContext } from 'react';
 import { FaUserCircle } from "react-icons/fa";
 import ProfileEdit from './ProfileEdit.jsx'
 import AuthContext from '../../context/AuthContext';
+import pfp from '../../assets/pfp.png';
 
 
 function ProfileCard() {
     const [isEditOpen, setIsEditOpen] = useState(false);
     let { username } = useContext(AuthContext)
-    username = "gooniemashroomi"
+    username = "hoarfrost"
 
     const handlenftminting = () => {
         // below link will redirect you to nftminter app, deployed on vercel.
@@ -22,7 +23,8 @@ function ProfileCard() {
                     <div className="flex items-center pl-2">
                         <div className="relative -top-12 -mb-10">
                             <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center">
-                                <FaUserCircle size={1000} className="text-gray-500" />
+                                {/* <FaUserCircle size={1000} className="text-gray-500" /> */}
+                                <img className="rounded-full w-32 h-32" src={pfp} alt="profile image" />
                             </div>
                         </div>
                         <div className="ml-auto flex flex-col gap-2">
@@ -40,12 +42,12 @@ function ProfileCard() {
                     <div className='pl-2'>
                         <div className="mt-2 flex items-center gap-x-2">
                             <h2 className="text-xl font-bold">Gyan Dev</h2>
-                            <span className='text-gray-100 bg-gray-500 font-light text-xs rounded p-1'>Social</span>
+                            <span className='text-gray-100 bg-gray-500 font-light text-xs rounded p-1'>10</span>
                         </div>
                         <p className="text-gray-600">@{username}</p>
-                        <p className="mt-2 text-gray-700">This is just a sample profile :)</p>
+                        {/* <p className="mt-2 text-gray-700">This is just a sample profile :)</p> */}
                         <div className="mt-4 text-gray-600 text-sm">
-                            <span className="mr-4">Joined October 2020</span>
+                            <span className="mr-4">Joined November 2024</span>
                         </div>
                         <div className="mt-2 flex text-sm text-gray-600">
                             <span className="mr-4"><strong>0</strong> Following</span>

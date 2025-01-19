@@ -1,6 +1,7 @@
 
 // IconContext is used here to style the react-icons components.
 import { IconContext } from "react-icons";
+import pfp from '../../assets/pfp.png';
 
 // Icons to be used in all the posts.
 import { FaRegComment } from "react-icons/fa";
@@ -13,7 +14,7 @@ import { PiBookmarkSimple } from "react-icons/pi";
 import { MdIosShare } from "react-icons/md";
 // for tipping.
 import { SiBuymeacoffee } from "react-icons/si";
-import { FaRegUserCircle } from "react-icons/fa";
+// import { FaRegUserCircle } from "react-icons/fa";
 // StyleIcon: function used to style the icons used in post.As they all have exactly same styling.
 function StyleIcon({ Icon, Colour }) {
     return (
@@ -30,14 +31,15 @@ function Post({ content, gifUrl, timestamp }) {
                 <div className="flex">
                     {/* User's image from the database...*/}
                     <div className="w-12 h-12 flex-shrink-0 text-gray-400 m-4">
-                        <FaRegUserCircle size="100%" />
+                        {/* <FaRegUserCircle size="100%" /> */}
+                        <img className="rounded-full w-12 h-12" src={pfp} alt="profile image" />
                     </div>
                     <div className="content my-4 flex gap-2">
                         <div className="">
 
                             {/* contains the user info. who created the post... */}
                             <span className="font-semibold hover:underline cursor-pointer">Gyan Dev </span>
-                            <span className="opacity-70">gyandev</span>
+                            <span className="opacity-70">hoarfrost</span>
                             <span className="opacity-70">·</span>
                             <span className="opacity-70 text-xs"> {new Date(timestamp).toLocaleString()}</span>
 

@@ -11,16 +11,16 @@ contract NFTMarketplace is ERC721URIStorage {
     address public owner;
 
     struct NFT_data {
-        uint256 tokenid;             // uint256: Unique identifier for the NFT
-        address owner;               // address: Current owner of the NFT
-        address sender;              // address: Original creator or sender of the NFT
-        uint256 price;               // uint256: Price of the NFT in wei
-        bool outforsale;             // bool: Status indicating if the NFT is for sale
-        string videoURL;            // string: URL of the video associated with the NFT
-        string videoName;           // string: Name of the video
-        string videoDescription;    // string: Description of the video
-        string videoCategory;       // string: Category of the video
-        string isvideo;                // string: Type of the NFT
+        uint256 tokenid; // uint256: Unique identifier for the NFT
+        address owner; // address: Current owner of the NFT
+        address sender; // address: Original creator or sender of the NFT
+        uint256 price; // uint256: Price of the NFT in wei
+        bool outforsale; // bool: Status indicating if the NFT is for sale
+        string videoURL; // string: URL of the video associated with the NFT
+        string videoName; // string: Name of the video
+        string videoDescription; // string: Description of the video
+        string videoCategory; // string: Category of the video
+        string isvideo; // string: Type of the NFT
     }
 
     mapping(uint256 => NFT_data) public map;
@@ -49,7 +49,15 @@ contract NFTMarketplace is ERC721URIStorage {
         uint256 currentTokenId = _tokenid.current();
         _mint(msg.sender, currentTokenId);
         _setTokenURI(currentTokenId, tokenURI);
-        mapItem(currentTokenId, price, videoURL, videoName, videoDescription, videoCategory, isvideo);
+        mapItem(
+            currentTokenId,
+            price,
+            videoURL,
+            videoName,
+            videoDescription,
+            videoCategory,
+            isvideo
+        );
         _tokenid.increment();
         return currentTokenId;
     }
@@ -78,18 +86,24 @@ contract NFTMarketplace is ERC721URIStorage {
         );
     }
 
-    function getNFTDetails(uint256 tokenId) public view returns (
-        uint256,
-        address,
-        address,
-        uint256,
-        bool,
-        string memory,
-        string memory,
-        string memory,
-        string memory,
-        string memory // Return the type field
-    ) {
+    function getNFTDetails(
+        uint256 tokenId
+    )
+        public
+        view
+        returns (
+            uint256,
+            address,
+            address,
+            uint256,
+            bool,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory // Return the type field
+        )
+    {
         NFT_data memory nft = map[tokenId];
         return (
             nft.tokenid,

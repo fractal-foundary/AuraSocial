@@ -12,9 +12,9 @@ function ProfilePage() {
             <div className='w-full ml-[20%]'>
                 <ProfileHeader></ProfileHeader>
                 <ProfileCard></ProfileCard>
+                {/* <PostCard></PostCard>
                 <PostCard></PostCard>
-                <PostCard></PostCard>
-                <PostCard></PostCard>
+                <PostCard></PostCard> */}
 
             </div>
 

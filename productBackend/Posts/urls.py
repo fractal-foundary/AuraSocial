@@ -1,7 +1,7 @@
 from django.urls import path
-import views
+from .views import ExploreView, TimelineListView
 
 urlpatterns = [
-    path("explore/", views.ExploreView.as_view(), name="explore"),
-    path("timeline/", views.TimelineListView.as_view(), name="timeline"),
+    path("explore/", ExploreView.as_view(), name="explore"),
+    path("timeline/", TimelineListView.as_view(), name="timeline"),
 ]
