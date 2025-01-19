@@ -18,16 +18,47 @@ services:
       timeout: 20s
       retries: 10
       
+  # nftmarketplace:
+  #     build:
+  #       context: ./thirdwebNFTmarketplace
+  #       dockerfile: Dockerfile
+  #     container_name: secondary_nftmarketplace
+  #     command: sh -c "npm install && npm run dev"
+  #     restart: always
+  #     volumes: 
+  #       - ./thirdwebNFTmarketplace:/app/nftmarketplace/
+  #     ports:
+  #       - "3000:3000"
+  #     depends_on:
+  #       - frontend
+
+  # nftminter:
+  #     build:
+  #       context: ./nftminter
+  #       dockerfile: Dockerfile
+  #     container_name: aura_nftMinter
+  #     command: sh -c "npm install && npm run dev"
+  #     restart: always
+  #     volumes: 
+  #       - ./nftminter:/app/nftminter/
+  #     ports:
+  #       - "3000:3000"
+  #     depends_on:
+  #       - frontend
+
+        
   frontend:
       build:
-        context: ./reactfrontend
+        context: ./productFrontend
         dockerfile: Dockerfile
       container_name: cards_frontend
+      command: sh -c "npm install && npm run dev"
       restart: always
       volumes: 
-        - ./reactfrontend:/app/frontend
+        # if we only include src and public file than there will be errors due to package.json is not included.
+        - ./productFrontend:/app/frontend/
       ports:
-        - "3000:3000"
+        - "5173:5173"
       depends_on:
         - backend
   
@@ -48,6 +79,15 @@ services:
       db:
         condition: service_healthy
 
-        
+
+  proxy:
+    image: traefik:v3.0
+    container_name: proxy
+    ports:
+      - 10000:10000
+    volumes:
+      - ./traefik.toml:/etc/traefik/traefik.toml 
+
+
 volumes:
   data:

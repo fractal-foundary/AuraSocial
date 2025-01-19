@@ -1,0 +1,7 @@
+.cardholder_container {
+    margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 50px;
+}

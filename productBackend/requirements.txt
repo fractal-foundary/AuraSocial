@@ -6,7 +6,7 @@ html5lib
 numpy
 Pillow
 djangorestframework
-django-allauth[socialaccount]
 requests
-Pillow
 dataclasses
+tweepy==4.14.0
+djangorestframework-simplejwt

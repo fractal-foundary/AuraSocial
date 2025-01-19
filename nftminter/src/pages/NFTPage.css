@@ -1,0 +1,207 @@
+.videopage_container {
+  padding: 5px 3rem;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 70vh;
+  margin-top: 40px;
+}
+
+.watermark-container {
+  position: relative;
+  display: inline-block;
+}
+
+.watermark-container .watermark {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 24px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.watermark-container .watermark2 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 24px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.watermark-container img,
+.watermark-container video {
+  display: block;
+}
+
+.videopage_left {
+  width: 48%;
+}
+
+.videopage_right {
+  width: 42%;
+}
+.videopage_left video {
+  border-radius: 10px;
+  border: 1px solid #373737;
+}
+
+.videopage_right_upper h2 {
+  font-size: 40px;
+  line-height: 1px;
+}
+
+.videopage_right_upper_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.videopage_right_upper_title button {
+  /* margin-top: 15px; */
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  font-size: 1.15em;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  /* background-color: #1a1a1a; */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.videopage_right_upper_title button:hover {
+  border-color: #646cff;
+  transition: scale 0.25s;
+  scale: 1.08;
+}
+
+.videopage_right_upper p {
+  font-size: 18px;
+  /* line-height: 1px; */
+}
+
+.videopage_right_upper span {
+  color: #89bef3;
+}
+
+.videopage_right_lower {
+  margin-top: 30px;
+  border: 1px solid #373737;
+  padding: 5px 20px;
+  border-radius: 8px;
+  background-color: #1b1b1b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.videopage_right_lower_price {
+  line-height: 8px;
+}
+
+.videopage_right_lower_price p {
+  font-size: 15px;
+  color: #b3b3b3;
+}
+
+.videopage_right_lower_price h2 {
+  font-size: 30px;
+}
+
+.videopage_button_container2 {
+  margin-right: 30px;
+  border-radius: 8px;
+  border: 1.5px solid white;
+  padding: 0.5em 1em;
+  background-size: contain;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  /* background-image: linear-gradient(
+        75deg,
+        hsl(261deg 77% 46%) 0%,
+        hsl(264deg 73% 48%) 15%,
+        hsl(266deg 68% 49%) 29%,
+        hsl(269deg 66% 51%) 41%,
+        hsl(271deg 66% 52%) 51%,
+        hsl(273deg 66% 54%) 61%,
+        hsl(275deg 65% 55%) 69%,
+        hsl(277deg 65% 57%) 76%,
+        hsl(279deg 65% 58%) 84%,
+        hsl(281deg 65% 60%) 91%,
+        hsl(283deg 65% 61%) 100%
+      ); */
+  font-size: 1.15em;
+  font-weight: 700;
+  /* border: none; */
+  outline: none;
+  font-family: inherit;
+  /* background-color: #1a1a1a; */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.videopage_button_container2:hover {
+  /* border-color: #646cff; */
+  transition: scale 0.25s;
+  scale: 1.08;
+}
+
+.videopage_button_container {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.5em 1.1em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  font-size: 1.15em;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  /* background-color: #1a1a1a; */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.videopage_button_container:hover {
+  border-color: #646cff;
+  transition: scale 0.25s;
+  scale: 1.08;
+}

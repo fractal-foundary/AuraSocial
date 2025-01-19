@@ -1,9 +1,14 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
-from .views import ProfileView
+from django.urls import path
+from . import views
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+    TokenVerifyView,
+)
 
-router = routers.DefaultRouter()
-router.register(r"profile", ProfileView)
-
-urlpatterns = [path("api/", include(router.urls))]
+urlpatterns = [
+    path("token/", views.CustomTokenObtainPairView, name="get-jwt-tokens"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="refresh-jwt-tokens"),
+    path("token/verify/", TokenVerifyView.as_view(), name="verify-jwt-tokens"),
+    path("register/", views.UserAPIView.as_view(), name="create-new-user"),
+    path("profile/", views.ProfileAPIView.as_view(), name="update-profile"),
+]
